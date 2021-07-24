@@ -75,17 +75,17 @@
             </plugin>
         </plugins>
     </build>
-	
-	<distributionManagement>
-	    <repository>
-	        <id>central</id>
-	        <name>jfrog12-releases</name>
-	        <url>http://106.15.34.240:8081/artifactory/guide-maven-dev-local</url>
-	    </repository>
-	    <snapshotRepository>
-	        <id>snapshots</id>
-	        <name>jfrog12-snapshots</name>
-	        <url>http://106.15.34.240:8081/artifactory/guide-maven-dev-local</url>
-	    </snapshotRepository>
-	</distributionManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>jfrogchina-demo-releases</name>
+            <url>http://182.92.214.141:8081/artifactory/slash-guide-maven-virtual</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>jfrogchina-demo-snapshots</name>
+            <url>http://182.92.214.141:8081/artifactory/slash-guide-maven-virtual</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
