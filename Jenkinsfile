@@ -1,5 +1,5 @@
 node{
-	def server = Artifactory.server 'art1'
+	def server = Artifactory.server 'poc-server'
 	def rtMaven = Artifactory.newMavenBuild()
 	def buildInfo
 
