@@ -9,8 +9,8 @@ node{
 
 	stage ('Artifactory configuration') {
 	    rtMaven.tool = 'maven' // Tool name from Jenkins configuration
-	    rtMaven.deployer releaseRepo: 'guide-maven-dev-local', snapshotRepo: 'slash-guide-maven-dev-local', server: server
-	    rtMaven.resolver releaseRepo: 'guide-maven-virtual', snapshotRepo: 'slash-guide-maven-virtual', server: server
+	    rtMaven.deployer releaseRepo: 'slash-guide-maven-dev-local', snapshotRepo: 'slash-guide-maven-dev-local', server: server
+	    rtMaven.resolver releaseRepo: 'slash-guide-maven-virtual', snapshotRepo: 'slash-guide-maven-virtual', server: server
 	    buildInfo = Artifactory.newBuildInfo()
 	 }
 
