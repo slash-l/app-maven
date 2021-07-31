@@ -6,7 +6,7 @@ def rtMaven
 def buildInfo
 node{
     stage('Artifactory configuration'){
-        server = Artifactory.server 'poc-server'
+        server = Artifactory.server 'poc-server'
         rtMaven = Artifactory.newMavenBuild()
         rtMaven.tool = 'maven'
         rtMaven.deployer releaseRepo:'slash-guide-maven-dev-local', snapshotRepo:'slash-guide-maven-dev-local', server: server
