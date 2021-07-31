@@ -42,7 +42,7 @@ node{
             //surl = "${SONAR_HOST_URL}/api/measures/component?component=${JOB_NAME}&metricKeys=ncloc,complexity,violations"
 
             // def responses = httpRequest httpMode: 'GET', contentType: 'APPLICATION_JSON', ignoreSslErrors: true, url: surl
-            def responses = httpRequest "${SONAR_HOST_URL}/api/measures/component?component=${JOB_NAME}&metricKeys=ncloc,complexity,violations"
+            def responses = httpRequest "http://www.baidu.com"
 
             echo "Status: "+responses.status
             echo "Content: "+responses.content
