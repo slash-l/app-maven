@@ -27,8 +27,6 @@ node{
 
     stage('Sonar Scan'){
         def scannerHome = tool ToolSonar
-
-        // def scannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
         withSonarQubeEnv(SonarQubeServer){
             sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=${JOB_NAME} -Dsonar.sources=. -Dsonar.java.binaries=* -Dsonar.junit.reportPaths=${TestResultPath}"
         }
@@ -39,7 +37,10 @@ node{
             waitForQualityGate()
         }
         withSonarQubeEnv(SonarQubeServer){
-            surl = "${SONAR_HOST_URL}/api/measures/component?componentKey=${JOB_NAME}&metricKeys=alert_status,quality_gate_details,coverage,new_coverage,bugs,new_bugs,reliability_rating,vulnerabilities,new_vulnerabilities,security_rating,sqale_rating,test_success_density,skipped_tests,test_failures,tests,test_errors,sqale_index,sqale_debt_ratio,new_sqale_debt_ratio,duplicated_lines_density&additionalFields=metrics,periods"
+            curl = "${SONAR_HOST_URL}/api/measures/component?componentKey=${JOB_NAME}&metricKeys=alert_status,quality_gate_details,
+                coverage,new_coverage,bugs,new_bugs,reliability_rating,vulnerabilities,new_vulnerabilities,security_rating,sqale_rating,
+                test_success_density,skipped_tests,test_failures,tests,test_errors,sqale_index,sqale_debt_ratio,new_sqale_debt_ratio,
+                duplicated_lines_density&additionalFields=metrics,periods"
             def responses = httpRequest consoleLogResponseBody: true, contentType: 'APPLICATION_JSON', ignoreSslErrors: true, url: surl
             echo "Status: "+responses.status
             echo "Content: "+responses.content
