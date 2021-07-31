@@ -27,7 +27,7 @@ node{
 
     stage('Sonar Scan'){
         def scannerHome = tool ToolSonar
-        withSonarQubeEnv(SonarQubeServer) {
+        withSonarQubeEnv(SonarQubeServer){
             sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=${JOB_NAME} -Dsonar.sources=. -Dsonar.java.binaries=* -Dsonar.junit.reportPaths=${TestResultPath}"
         }
     }
