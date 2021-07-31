@@ -1,4 +1,4 @@
-ToolSonar='sonar'
+ToolSonar='sonar-scanner'
 SonarQubeServer='sonarqube'
 TestResultPath='multi3/target/surefire-reports'
 def server
