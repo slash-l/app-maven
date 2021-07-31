@@ -59,7 +59,7 @@ node{
     }
 
     stage('Publish & Scan'){
-        rtMaven.deployer.deployArtifacts buildInfo
+        rtMaven.deployer.deployArtifacts buildInfo
         server.publishBuildInfo buildInfo
     }
 }
