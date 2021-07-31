@@ -6,23 +6,23 @@ def rtMaven
 def buildInfo
 node{
     stage('Artifactory configuration'){
-        server = Artifactory.server 'poc-server'
-        rtMaven = Artifactory.newMavenBuild()
-        rtMaven.tool = 'maven'
-        rtMaven.deployer releaseRepo:'slash-guide-maven-dev-local', snapshotRepo:'slash-guide-maven-dev-local', server: server
-        rtMaven.resolver releaseRepo:'slash-guide-maven-virtual', snapshotRepo:'slash-guide-maven-virtual', server: server
-        rtMaven.deployer.deployArtifacts = false
-        buildInfo = Artifactory.newBuildInfo()
-        buildInfo.env.capture = true
+        server = Artifactory.server 'poc-server'
+        rtMaven = Artifactory.newMavenBuild()
+        rtMaven.tool = 'maven'
+        rtMaven.deployer releaseRepo:'slash-guide-maven-dev-local', snapshotRepo:'slash-guide-maven-dev-local', server: server
+        rtMaven.resolver releaseRepo:'slash-guide-maven-virtual', snapshotRepo:'slash-guide-maven-virtual', server: server
+        rtMaven.deployer.deployArtifacts = false
+        buildInfo = Artifactory.newBuildInfo()
+        buildInfo.env.capture = true
     }
 
     stage('Check out'){
-        git url: 'https://gitee.com/mumu79/app-maven.git'
+        git url: 'https://gitee.com/mumu79/app-maven.git'
     }
 
     stage('Exec Maven'){
-        env.JAVA_HOME=tool 'java'
-        rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
+        env.JAVA_HOME = tool 'java'
+        rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
     }
 
     stage('Sonar Scan'){
