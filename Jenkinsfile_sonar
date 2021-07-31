@@ -41,7 +41,7 @@ node{
 
             //surl = "${SONAR_HOST_URL}/api/measures/component?component=${JOB_NAME}&metricKeys=ncloc,complexity,violations"
 
-            def responses = httpRequest httpMode: 'GET', contentType: 'APPLICATION_JSON', ignoreSslErrors: true, url: surl, authentication: 'sonar-token'
+            def responses = httpRequest httpMode: 'GET', contentType: 'APPLICATION_JSON', ignoreSslErrors: true, url: surl, customHeaders:[[name:'Authorization', value:"Basic dc6f93ae8c279109d491bb9aa83fed485dc27e2c"]]
 
             echo "Status: "+responses.status
             echo "Content: "+responses.content
