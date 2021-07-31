@@ -26,9 +26,9 @@ node{
     }
 
     stage('Sonar Scan'){
-        // def scannerHome = tool ToolSonar
+        def scannerHome = tool ToolSonar
 
-        def scannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+        // def scannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
         withSonarQubeEnv(SonarQubeServer){
             sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=${JOB_NAME} -Dsonar.sources=. -Dsonar.java.binaries=* -Dsonar.junit.reportPaths=${TestResultPath}"
         }
