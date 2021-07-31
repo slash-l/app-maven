@@ -60,6 +60,6 @@ node{
 
     stage('Publish & Scan'){
         rtMaven.deployer.deployArtifacts buildInfo
-        server.publishBuildInfo buildInfo
+        server.publishBuildInfo buildInfo
     }
 }
