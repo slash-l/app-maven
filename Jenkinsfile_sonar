@@ -44,7 +44,7 @@ node{
             def propssonar = readJSON text: responses.content
             if (propssonar.component.measures) {
                 propssonar.component.measures.each{ itm ->
-                    if (itm.periods && itm.periods[0].value) {
+                    if (itm.periods && itm.periods[0].value) {
                         name = "qa.code.quality."+itm.metric
                         value = itm.periods[0].value
                         rtMaven.deployer.addProperty(name, value)
