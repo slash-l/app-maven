@@ -1,11 +1,10 @@
-buildNode='master'  //改为真实的编译节点的标签  
 ToolSonar='sonar'  
 SonarQubeServer='sonarqube'  
 TestResultPath='multi3/target/surefire-reports'  
 def server
 def rtMaven
 def buildInfo
-node(buildNode){
+node{
   stage('Artifactory configuration'){
     server = Artifactory.server 'poc-server'
     rtMaven = Artifactory.newMavenBuild()
