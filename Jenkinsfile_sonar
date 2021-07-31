@@ -1,59 +1,64 @@
 ToolSonar='sonar'
 SonarQubeServer='sonarqube'
 TestResultPath='multi3/target/surefire-reports'
-def server
-def rtMaven
-def buildInfo
+def server
+def rtMaven
+def buildInfo
 node{
-  stage('Artifactory configuration'){
-    server = Artifactory.server 'poc-server'
-    rtMaven = Artifactory.newMavenBuild()
-    rtMaven.tool = 'maven'
-    rtMaven.deployer releaseRepo:'slash-guide-maven-dev-local', snapshotRepo:'slash-guide-maven-dev-local', server: server
-    rtMaven.resolver releaseRepo:'slash-guide-maven-virtual', snapshotRepo:'slash-guide-maven-virtual', server: server
-    rtMaven.deployer.deployArtifacts = false
-    buildInfo = Artifactory.newBuildInfo()
-    buildInfo.env.capture = true
-  }
-  stage('Check out'){
-    git url: 'https://gitee.com/mumu79/app-maven.git'
-  }
-  stage('Exec Maven'){
-    env.JAVA_HOME=tool 'java'
-    rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
-  }
-  stage('Sonar Scan'){
-    def scannerHome = tool ToolSonar
-    withSonarQubeEnv(SonarQubeServer) {
-      sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=${JOB_NAME} -Dsonar.sources=. -Dsonar.java.binaries=* -Dsonar.junit.reportPaths=${TestResultPath}"
-    }
-  }
-  stage('Collection'){
-    timeout(10) {
-      waitForQualityGate()
-    }
-    withSonarQubeEnv(SonarQubeServer) {
-      surl="${SONAR_HOST_URL}/api/measures/component?componentKey=${JOB_NAME}&metricKeys=alert_status,quality_gate_details,coverage,new_coverage,bugs,new_bugs,reliability_rating,vulnerabilities,new_vulnerabilities,security_rating,sqale_rating,test_success_density,skipped_tests,test_failures,tests,test_errors,sqale_index,sqale_debt_ratio,new_sqale_debt_ratio,duplicated_lines_density&additionalFields=metrics,periods"
-      def responses=httpRequest consoleLogResponseBody: true, contentType: 'APPLICATION_JSON', ignoreSslErrors: true, url: surl
-      echo "Status: "+responses.status
-      echo "Content: "+responses.content
-      def propssonar = readJSON text: responses.content
-      if (propssonar.component.measures) {
-        propssonar.component.measures.each{ itm ->
-          if (itm.periods && itm.periods[0].value) {
-            name = "qa.code.quality."+itm.metric
-            value = itm.periods[0].value
-            rtMaven.deployer.addProperty(name, value)
-            } else if (itm.value) {
-              name = "qa.code.quality."+itm.metric
-              value = itm.value
-              rtMaven.deployer.addProperty(name, value)
-            }
-          }
-        }
-      }
-    }
-    stage('Publish & Scan'){
+    stage('Artifactory configuration'){
+        server = Artifactory.server 'poc-server'
+        rtMaven = Artifactory.newMavenBuild()
+        rtMaven.tool = 'maven'
+        rtMaven.deployer releaseRepo:'slash-guide-maven-dev-local', snapshotRepo:'slash-guide-maven-dev-local', server: server
+        rtMaven.resolver releaseRepo:'slash-guide-maven-virtual', snapshotRepo:'slash-guide-maven-virtual', server: server
+        rtMaven.deployer.deployArtifacts = false
+        buildInfo = Artifactory.newBuildInfo()
+        buildInfo.env.capture = true
+    }
+
+    stage('Check out'){
+        git url: 'https://gitee.com/mumu79/app-maven.git'
+    }
+
+    stage('Exec Maven'){
+        env.JAVA_HOME=tool 'java'
+        rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
+    }
+
+    stage('Sonar Scan'){
+        def scannerHome = tool ToolSonar
+        withSonarQubeEnv(SonarQubeServer) {
+            sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=${JOB_NAME} -Dsonar.sources=. -Dsonar.java.binaries=* -Dsonar.junit.reportPaths=${TestResultPath}"
+        }
+    }
+
+    stage('Collection'){
+        timeout(10) {
+            waitForQualityGate()
+        }
+        withSonarQubeEnv(SonarQubeServer) {
+            surl="${SONAR_HOST_URL}/api/measures/component?componentKey=${JOB_NAME}&metricKeys=alert_status,quality_gate_details,coverage,new_coverage,bugs,new_bugs,reliability_rating,vulnerabilities,new_vulnerabilities,security_rating,sqale_rating,test_success_density,skipped_tests,test_failures,tests,test_errors,sqale_index,sqale_debt_ratio,new_sqale_debt_ratio,duplicated_lines_density&additionalFields=metrics,periods"
+            def responses=httpRequest consoleLogResponseBody: true, contentType: 'APPLICATION_JSON', ignoreSslErrors: true, url: surl
+            echo "Status: "+responses.status
+            echo "Content: "+responses.content
+            def propssonar = readJSON text: responses.content
+            if (propssonar.component.measures) {
+                propssonar.component.measures.each{ itm ->
+                    if (itm.periods && itm.periods[0].value) {
+                        name = "qa.code.quality."+itm.metric
+                        value = itm.periods[0].value
+                        rtMaven.deployer.addProperty(name, value)
+                    } else if (itm.value) {
+                        name = "qa.code.quality."+itm.metric
+                        value = itm.value
+                        rtMaven.deployer.addProperty(name, value)
+                    }
+                }
+            }
+        }
+    }
+
+    stage('Publish & Scan'){
         rtMaven.deployer.deployArtifacts buildInfo
         server.publishBuildInfo buildInfo
     }
