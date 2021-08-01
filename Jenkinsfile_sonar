@@ -77,11 +77,11 @@ node{
             def propssonar = conn.getResponseMessage();*/
 
             surl = "${SONAR_HOST_URL}/api/measures/component?component=${JOB_NAME}&metricKeys=alert_status,quality_gate_details,coverage,new_coverage,bugs,new_bugs,reliability_rating,vulnerabilities,new_vulnerabilities,security_rating,sqale_rating,test_success_density,skipped_tests,test_failures,tests,test_errors,sqale_index,sqale_debt_ratio,new_sqale_debt_ratio,duplicated_lines_density&additionalFields=metrics,periods"
-            def propssonar = sh returnStdout: true ,script: "curl -uadmin:admin ${surl}"
+            propssonar = sh returnStdout: true ,script: "curl -uadmin:admin http://192.168.1.10:9000/api/projects/search"
             propssonar = propssonar.trim()
             echo "propssonar: "+propssonar
 
-            if (propssonar.component.measures) {
+            if (propssonar != null && propssonar.component.measures) {
                 propssonar.component.measures.each{ itm ->
                     if (itm.periods && itm.periods[0].value) {
                         name = "qa.code.quality."+itm.metric
