@@ -67,6 +67,9 @@ node{
             def getRC = conn.getResponseCode();
             echo "Status: "+getRC
 
+            def propssonar = conn.getResponseMessage();
+            echo "propssonar: "+propssonar
+
             /*if (propssonar.component.measures) {
                 propssonar.component.measures.each{ itm ->
                     if (itm.periods && itm.periods[0].value) {
