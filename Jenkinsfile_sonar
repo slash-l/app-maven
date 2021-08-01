@@ -38,39 +38,17 @@ node{
         }
 
         withSonarQubeEnv(SonarQubeServer){
-            /*
+            // 方式一：httpRequest
             //surl = "${SONAR_HOST_URL}/api/measures/component?component=${JOB_NAME}&metricKeys=alert_status,quality_gate_details,coverage,new_coverage,bugs,new_bugs,reliability_rating,vulnerabilities,new_vulnerabilities,security_rating,sqale_rating,test_success_density,skipped_tests,test_failures,tests,test_errors,sqale_index,sqale_debt_ratio,new_sqale_debt_ratio,duplicated_lines_density&additionalFields=metrics,periods"
-
-            //surl = "${SONAR_HOST_URL}/api/projects/search"
-
-            //def responses = httpRequest httpMode: 'GET', contentType: 'APPLICATION_JSON', ignoreSslErrors: true, url: surl
             //def response = httpRequest consoleLogResponseBody: true,contentType: 'APPLICATION_JSON',httpMode: 'GET',ignoreSslErrors: true,url: surl
-
-            //def responses = "${SONAR_HOST_URL}/api/projects/search"
 
             //echo "Status: "+responses.status
             //echo "Content: "+responses.content
             //def propssonar = readJSON text: responses.content
 
+            //def propssonar = conn.getResponseMessage();
 
-            def sonarUrl = env.SONAR_HOST_URL
-            echo "sonarUrl: " +  sonarUrl
-
-            def sonarAuthToken = env.SONAR_AUTH_TOKEN
-            echo "sonarAuthToken: " +  sonarAuthToken
-
-            query = "${sonarUrl}/api/projects/search"
-
-            def conn = new URL(query).openConnection();
-            conn.setRequestProperty('Accept', 'application/json')
-            conn.setRequestProperty("Authorization", "Basic ${sonarAuthToken}" )
-            conn.setConnectTimeout(10000)
-
-            def getRC = conn.getResponseCode();
-            echo "Status: "+getRC
-
-            def propssonar = conn.getResponseMessage();*/
-
+            // 方式二：sh curl
             surl = "${SONAR_HOST_URL}/api/measures/component?component=${JOB_NAME}&metricKeys=alert_status,quality_gate_details,coverage,new_coverage,bugs,new_bugs,reliability_rating,vulnerabilities,new_vulnerabilities,security_rating,sqale_rating,test_success_density,skipped_tests,test_failures,tests,test_errors,sqale_index,sqale_debt_ratio,new_sqale_debt_ratio,duplicated_lines_density&additionalFields=metrics,periods"
             result = sh returnStdout: true ,script: "curl -uadmin:123456 '${surl}'"
             def propssonar = readJSON text: result.trim()
@@ -97,7 +75,7 @@ node{
         server.publishBuildInfo buildInfo
     }
 
-    /*stage('Quality Gate') {
+    stage('Quality Gate') {
         arti_url = 'http://182.92.214.141:8081/artifactory' //配置artifactory地址  
         
         //通过aql设置质量关卡  
@@ -121,5 +99,5 @@ node{
         if (props.range.total <= 0) {
             error 'Did not pass the quality gate!!!'
         }
-    }*/
+    }
 }
