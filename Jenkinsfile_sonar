@@ -37,7 +37,7 @@ node{
             waitForQualityGate()
         }
 
-        def sonarUrl = env.SONAR_HOST_URL
+        def sonarUrl = "http://192.168.1.10:9000"
         echo "sonarUrl: " +  sonarUrl
 
         def sonarAuthToken = env.SONAR_AUTH_TOKEN
