@@ -41,7 +41,8 @@ node{
        //def responses = httpRequest url: surl
        //echo "responses: " +  responses
 
-       sh "curl -uadmin:admin http://192.168.1.10:9000/api/projects/search"
+       def propssonar =  sh "curl -uadmin:admin http://192.168.1.10:9000/api/projects/search"
+       echo "propssonar: " +  propssonar
 
         /*withSonarQubeEnv(SonarQubeServer){
             //surl = "${SONAR_HOST_URL}/api/measures/component?component=${JOB_NAME}&metricKeys=alert_status,quality_gate_details,coverage,new_coverage,bugs,new_bugs,reliability_rating,vulnerabilities,new_vulnerabilities,security_rating,sqale_rating,test_success_density,skipped_tests,test_failures,tests,test_errors,sqale_index,sqale_debt_ratio,new_sqale_debt_ratio,duplicated_lines_density&additionalFields=metrics,periods"
