@@ -43,7 +43,7 @@ node {
         echo "requirements : ${requirements}"
         def revisionIds = getRevisionIds();
         echo "revisionIds : ${revisionIds}"
-        sh 'curl -uadmin:password -X PUT "http://192.168.230.155:8081/artifactory/api/storage/guide-maven-dev-local/org/jfrog/test?properties=project.issues=' + requirements+ ';project.revisionIds=' + revisionIds + ';JiraUrl=http://jira.example.com/browse/' + requirements +'"'
+        sh 'curl -uliujy:Helloljy -X PUT "http://182.92.214.141:8081/artifactory/api/storage/slash-guide-maven-dev-local/org/jfrog/test?properties=project.issues=' + requirements+ ';project.revisionIds=' + revisionIds + ';JiraUrl=https://jfrogchina.atlassian.net/browse/' + requirements +'"'
     }
 */
 
@@ -54,9 +54,13 @@ def getRequirementsIds() {
     def reqIds = "";
     final changeSets = currentBuild.changeSets
     echo 'changeset count:' + changeSets.size().toString()
+    echo 'changeSets: ' + changeSets.toString()
+
     final changeSetIterator = changeSets.iterator()
     while (changeSetIterator.hasNext()) {
         final changeSet = changeSetIterator.next();
+        echo 'changeSet: ' + changeSet.toString()
+
         def logEntryIterator = changeSet.iterator();
         while (logEntryIterator.hasNext()) {
             final logEntry = logEntryIterator.next()
