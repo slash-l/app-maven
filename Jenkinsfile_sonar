@@ -37,13 +37,14 @@ node{
             waitForQualityGate()
         }
 
-       surl = "http://192.168.1.10:9000/api/projects/search"
+       //surl = "http://192.168.1.10:9000/api/projects/search"
        //def responses = httpRequest url: surl
        //echo "responses: " +  responses
 
-       sh "curl -uadmin:admin http://192.168.1.10:9000/api/projects/search > commandResult"
-       def propssonar =  result = readFile('commandResult').trim()
-       echo "propssonar: " +  propssonar
+       result = sh returnStdout: true ,script: "curl -uadmin:admin http://192.168.1.10:9000/api/projects/search"
+       result = result.trim()
+
+       echo "result: " +  result
 
         /*withSonarQubeEnv(SonarQubeServer){
             //surl = "${SONAR_HOST_URL}/api/measures/component?component=${JOB_NAME}&metricKeys=alert_status,quality_gate_details,coverage,new_coverage,bugs,new_bugs,reliability_rating,vulnerabilities,new_vulnerabilities,security_rating,sqale_rating,test_success_density,skipped_tests,test_failures,tests,test_errors,sqale_index,sqale_debt_ratio,new_sqale_debt_ratio,duplicated_lines_density&additionalFields=metrics,periods"
