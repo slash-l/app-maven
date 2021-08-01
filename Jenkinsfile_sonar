@@ -48,7 +48,7 @@ node{
             echo "Status: "+responses.status
             echo "Content: "+responses.content
             def propssonar = readJSON text: responses.content
-            if (propssonar.component.measures) {
+            /*if (propssonar.component.measures) {
                 propssonar.component.measures.each{ itm ->
                     if (itm.periods && itm.periods[0].value) {
                         name = "qa.code.quality."+itm.metric
@@ -60,7 +60,7 @@ node{
                         rtMaven.deployer.addProperty(name, value)
                     }
                 }
-            }
+            }*/
         }
     }
 
