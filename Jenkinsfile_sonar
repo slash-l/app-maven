@@ -76,28 +76,29 @@ node{
     }
 
     stage('Quality Gate') {
-        arti_url = 'http://182.92.214.141:8081/artifactory' //配置artifactory地址  
-        
-        //通过aql设置质量关卡  
-        def aql = '''items.find({
-            "@build.name": {"$eq" : "''' + buildInfo.name + '''"},  
-            "@build.number": {"$eq" : "''' + buildInfo.number + '''"},  
-            "@qa.code.quality.coverage": {"$gte" : "''' + '0.8' + '''"}  
+        arti_url = 'http://182.92.214.141:8081/artifactory' //配置artifactory地址
+
+        //通过aql设置质量关卡
+        def aql = '''items.find({
+            "@build.name": {"$eq" : "''' + buildInfo.name + '''"},
+            "@build.number": {"$eq" : "''' + buildInfo.number + '''"},
+            "@qa.code.quality.coverage": {"$gte" : "''' + '0.8' + '''"}
         })
+        '''
 
-        def response = httpRequest authentication: 'artifactory',
-        consoleLogResponseBody: true,
-        contentType: 'TEXT_PLAIN',
-        httpMode: 'POST',
-        ignoreSslErrors: true,
-        requestBody: aql,
-        url: "${arti_url}/api/search/aql"
+        def response = httpRequest authentication: 'artifactory',
+        consoleLogResponseBody: true,
+        contentType: 'TEXT_PLAIN',
+        httpMode: 'POST',
+        ignoreSslErrors: true,
+        requestBody: aql,
+        url: "${arti_url}/api/search/aql"
 
-        echo "Status: " + response.status echo "Content: " + response.content echo aql def props = readJSON text: response.content
+        echo "Status: " + response.status echo "Content: " + response.content echo aql def props = readJSON text: response.content
 
-        //如果质量关卡没有通过，退出这次构建
-        if (props.range.total <= 0) {
-            error 'Did not pass the quality gate!!!'
-        }
+        //如果质量关卡没有通过，退出这次构建
+        if(props.range.total <= 0){
+            error 'Did not pass the quality gate!!!'
+        }
     }
 }
