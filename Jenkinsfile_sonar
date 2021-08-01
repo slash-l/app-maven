@@ -36,6 +36,25 @@ node{
         timeout(10) {
             waitForQualityGate()
         }
+
+        def sonarUrl = env.SONAR_HOST_URL
+        echo "sonarUrl: " +  sonarUrl
+
+        def sonarAuthToken = env.SONAR_AUTH_TOKEN
+        echo "sonarAuthToken: " +  sonarAuthToken
+
+        query = "${sonarUrl}/api/projects/search"
+
+        def conn = new URL(query).openConnection();
+        conn.setRequestProperty('Accept', 'application/json')
+        conn.setConnectTimeout(10000)
+
+        def getRC = conn.getResponseCode();
+        echo "Status: "+getRC
+
+        def propssonar = conn.getResponseMessage();
+        echo "propssonar: "+propssonar
+
         withSonarQubeEnv(SonarQubeServer){
             //surl = "${SONAR_HOST_URL}/api/measures/component?component=${JOB_NAME}&metricKeys=alert_status,quality_gate_details,coverage,new_coverage,bugs,new_bugs,reliability_rating,vulnerabilities,new_vulnerabilities,security_rating,sqale_rating,test_success_density,skipped_tests,test_failures,tests,test_errors,sqale_index,sqale_debt_ratio,new_sqale_debt_ratio,duplicated_lines_density&additionalFields=metrics,periods"
 
