@@ -86,7 +86,7 @@ node{
         })
         '''
 
-        def response = httpRequest consoleLogResponseBody: true,contentType: 'TEXT_PLAIN',httpMode: 'POST',ignoreSslErrors: true,requestBody: aql,url: "${arti_url}/api/search/aql",authentication: 'Bearer AKCp8jRGcmjskkYxxQK9qz1JM8zhsV9ivYrt7sXT3qycPiBDNkTPDuc8XCumhs5KtZixZQ6XQ'
+        def response = httpRequest consoleLogResponseBody: true,contentType: 'TEXT_PLAIN',httpMode: 'POST',ignoreSslErrors: true,requestBody: aql,url: "${arti_url}/api/search/aql",authentication: [Username: 'liujy', Password: 'Helloljy']
 
         echo "Status: " + response.status
         echo "Content: " + response.content
