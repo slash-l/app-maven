@@ -71,7 +71,7 @@ def getRequirementsIds() {
             echo 'matcher:  ' + matcher
 
             def count = matcher.getCount();
-            echo 'count:' + count
+            echo 'count: ' + count
 
             for (int i = 0; i < count; i++) {
                 reqIds += matcher[i].replace('#', '') + ","
