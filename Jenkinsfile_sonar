@@ -42,12 +42,7 @@ node{
             surl = "${SONAR_HOST_URL}/api/projects/search"
 
             //def responses = httpRequest httpMode: 'GET', contentType: 'APPLICATION_JSON', ignoreSslErrors: true, url: surl
-            def response = httpRequest authentication: 'sonar-token',
-                    consoleLogResponseBody: true,
-                    contentType: 'APPLICATION_JSON',
-                    httpMode: 'GET',
-                    ignoreSslErrors: true,
-                    url: surl
+            def response = httpRequest authentication: 'sonar-token',consoleLogResponseBody: true,contentType: 'APPLICATION_JSON',httpMode: 'GET',ignoreSslErrors: true,url: surl
 
             //def responses = "${SONAR_HOST_URL}/api/projects/search"
 
