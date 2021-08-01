@@ -89,7 +89,7 @@ node{
             def propssonar = conn.getResponseMessage();
             echo "propssonar: "+propssonar
 
-            /*if (propssonar.component.measures) {
+            if (propssonar.component.measures) {
                 propssonar.component.measures.each{ itm ->
                     if (itm.periods && itm.periods[0].value) {
                         name = "qa.code.quality."+itm.metric
@@ -101,7 +101,7 @@ node{
                         rtMaven.deployer.addProperty(name, value)
                     }
                 }
-            }*/
+            }
         }*/
     }
 
