@@ -60,7 +60,7 @@ node{
 
             def conn = new URL(query).openConnection();
             conn.setRequestProperty(‘Accept’, ‘application/json’)
-            conn.setRequestProperty(“Authorization”, “Basic 6272864eb4eed8e5309c9ebe3746cc5e323e0be3” )
+            conn.setRequestProperty(“Authorization”, “Basic '6272864eb4eed8e5309c9ebe3746cc5e323e0be3'” )
             conn.setConnectTimeout(10000)
 
             def getRC = conn.getResponseCode();
