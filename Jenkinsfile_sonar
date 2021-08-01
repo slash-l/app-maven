@@ -37,23 +37,9 @@ node{
             waitForQualityGate()
         }
 
-        def sonarUrl = "http://192.168.1.10:9000"
-        echo "sonarUrl: " +  sonarUrl
-
-        def sonarAuthToken = env.SONAR_AUTH_TOKEN
-        echo "sonarAuthToken: " +  sonarAuthToken
-
-        query = "${sonarUrl}/api/projects/search"
-
-        def conn = new URL(query).openConnection();
-        //conn.setRequestProperty('Accept', 'application/json')
-        //conn.setConnectTimeout(10000)
-
-        def getRC = conn.getResponseCode();
-        echo "Status: "+getRC
-
-        def propssonar = conn.getResponseMessage();
-        echo "propssonar: "+propssonar
+       surl = "http://192.168.1.10:9000/api/projects/search"
+       def responses = url: surl
+       echo "responses: " +  responses
 
         /*withSonarQubeEnv(SonarQubeServer){
             //surl = "${SONAR_HOST_URL}/api/measures/component?component=${JOB_NAME}&metricKeys=alert_status,quality_gate_details,coverage,new_coverage,bugs,new_bugs,reliability_rating,vulnerabilities,new_vulnerabilities,security_rating,sqale_rating,test_success_density,skipped_tests,test_failures,tests,test_errors,sqale_index,sqale_debt_ratio,new_sqale_debt_ratio,duplicated_lines_density&additionalFields=metrics,periods"
@@ -105,12 +91,12 @@ node{
         }*/
     }
 
-    stage('Publish & Scan'){
+    /*stage('Publish & Scan'){
         rtMaven.deployer.deployArtifacts buildInfo
         server.publishBuildInfo buildInfo
     }
 
-    /*stage('Quality Gate') {
+    stage('Quality Gate') {
         arti_url = 'http://182.92.214.141:8081/artifactory' //配置artifactory地址  
         
         //通过aql设置质量关卡  
