@@ -75,7 +75,7 @@ node{
         server.publishBuildInfo buildInfo
     }
 
-    /*stage('Quality Gate') {
+    stage('Quality Gate') {
         arti_url = 'http://182.92.214.141:8081/artifactory' //配置artifactory地址
 
         //通过aql设置质量关卡
@@ -97,5 +97,5 @@ node{
         if(props.range.total <= 0){
             error 'Did not pass the quality gate!!!'
         }
-    }*/
+    }
 }
