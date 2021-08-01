@@ -87,12 +87,12 @@ node{
         '''
 
         def response = httpRequest authentication: 'artifactory',
-        consoleLogResponseBody: true,
-        contentType: 'TEXT_PLAIN',
-        httpMode: 'POST',
-        ignoreSslErrors: true,
-        requestBody: aql,
-        url: "${arti_url}/api/search/aql"
+        consoleLogResponseBody: true,
+        contentType: 'TEXT_PLAIN',
+        httpMode: 'POST',
+        ignoreSslErrors: true,
+        requestBody: aql,
+        url: "${arti_url}/api/search/aql"
 
         echo "Status: " + response.status echo "Content: " + response.content echo aql def props = readJSON text: response.content
 
