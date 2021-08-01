@@ -68,7 +68,7 @@ def getRequirementsIds() {
 
             def patten = ~/#[\w\-_\d]+/;
             def matcher = (logEntry.getMsg() =~ patten);
-            echo 'matcher: ' + matcher
+            echo 'matcher:  ' + matcher
 
             def count = matcher.getCount();
             echo 'count: ' + count
