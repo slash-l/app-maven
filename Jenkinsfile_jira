@@ -72,6 +72,8 @@ def getRequirementsIds() {
             }
         }
     }
+
+    echo 'reqIds: ' + reqIds.toString()
     return reqIds;
 }
 //@NonCPS
