@@ -39,24 +39,24 @@ node{
         withSonarQubeEnv(SonarQubeServer){
             //surl = "${SONAR_HOST_URL}/api/measures/component?component=${JOB_NAME}&metricKeys=alert_status,quality_gate_details,coverage,new_coverage,bugs,new_bugs,reliability_rating,vulnerabilities,new_vulnerabilities,security_rating,sqale_rating,test_success_density,skipped_tests,test_failures,tests,test_errors,sqale_index,sqale_debt_ratio,new_sqale_debt_ratio,duplicated_lines_density&additionalFields=metrics,periods"
 
-            //surl = "${SONAR_HOST_URL}/api/projects/search"
+            surl = "${SONAR_HOST_URL}/api/projects/search"
 
             //def responses = httpRequest httpMode: 'GET', contentType: 'APPLICATION_JSON', ignoreSslErrors: true, url: surl
 
-            //def responses = "${SONAR_HOST_URL}/api/projects/search"
+            def responses = "${SONAR_HOST_URL}/api/projects/search"
 
-            //echo "Status: "+responses.status
-            //echo "Content: "+responses.content
-            //def propssonar = readJSON text: responses.content
+            echo "Status: "+responses.status
+            echo "Content: "+responses.content
+            def propssonar = readJSON text: responses.content
 
 
-            def sonarUrl = env.SONAR_HOST_URL
-            echo "sonarUrl: " +  sonarUrl
+            //def sonarUrl = env.SONAR_HOST_URL
+            //echo "sonarUrl: " +  sonarUrl
 
-            def sonarAuthToken = env.SONAR_AUTH_TOKEN
-            echo "sonarAuthToken: " +  sonarAuthToken
+            //def sonarAuthToken = env.SONAR_AUTH_TOKEN
+            //echo "sonarAuthToken: " +  sonarAuthToken
 
-            def query = “${sonarUrl}/api/projects/search”
+            //def query = “${sonarUrl}/api/projects/search”
 
             /*def conn = new URL(query).openConnection();
             conn.setRequestProperty(‘Accept’, ‘application/json’)
