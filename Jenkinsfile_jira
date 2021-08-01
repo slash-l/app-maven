@@ -64,7 +64,7 @@ def getRequirementsIds() {
         def logEntryIterator = changeSet.iterator();
         while (logEntryIterator.hasNext()) {
             final logEntry = logEntryIterator.next()
-            echo 'logEntry: ' + logEntry.toString()
+            echo 'logEntry: ' + logEntry.getMsg()
 
             def patten = ~/#[\w\-_\d]+/;
             def matcher = (logEntry.getMsg() =~ patten);
