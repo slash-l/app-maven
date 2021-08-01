@@ -68,7 +68,11 @@ def getRequirementsIds() {
 
             def patten = ~/#[\w\-_\d]+/;
             def matcher = (logEntry.getMsg() =~ patten);
+            echo 'matcher: ' + matcher
+
             def count = matcher.getCount();
+            echo 'count: ' + count
+
             for (int i = 0; i < count; i++) {
                 reqIds += matcher[i].replace('#', '') + ","
             }
