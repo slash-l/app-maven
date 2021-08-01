@@ -41,7 +41,8 @@ node{
        //def responses = httpRequest url: surl
        //echo "responses: " +  responses
 
-       def propssonar =  sh "curl -uadmin:admin http://192.168.1.10:9000/api/projects/search"
+       sh "curl -uadmin:admin http://192.168.1.10:9000/api/projects/search > commandResult"
+       def propssonar =  result = readFile('commandResult').trim()
        echo "propssonar: " +  propssonar
 
         /*withSonarQubeEnv(SonarQubeServer){
