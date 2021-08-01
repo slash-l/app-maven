@@ -51,13 +51,16 @@ node{
 
 
             def sonarUrl = env.SONAR_HOST_URL
+            echo "sonarUrl: " +  sonarUrl
+
             def sonarAuthToken = env.SONAR_AUTH_TOKEN
+            echo "sonarAuthToken: " +  sonarAuthToken
 
             def query = “${sonarUrl}/api/projects/search”
 
             def conn = new URL(query).openConnection();
             conn.setRequestProperty(‘Accept’, ‘application/json’)
-            conn.setRequestProperty(“Authorization”, “Basic ${sonarAuthToken}” )
+            conn.setRequestProperty(“Authorization”, “Basic env.SONAR_AUTH_TOKEN” )
             conn.setConnectTimeout(10000)
 
             def getRC = conn.getResponseCode();
