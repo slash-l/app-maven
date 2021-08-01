@@ -38,7 +38,7 @@ node{
         }
 
        surl = "http://192.168.1.10:9000/api/projects/search"
-       def responses = url: surl
+       def responses = httpRequest url: surl
        echo "responses: " +  responses
 
         /*withSonarQubeEnv(SonarQubeServer){
