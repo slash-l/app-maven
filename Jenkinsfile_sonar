@@ -97,12 +97,12 @@ node{
         }
     }
 
-    /*stage('Publish & Scan'){
+    stage('Publish & Scan'){
         rtMaven.deployer.deployArtifacts buildInfo
         server.publishBuildInfo buildInfo
     }
 
-    stage('Quality Gate') {
+    /*stage('Quality Gate') {
         arti_url = 'http://182.92.214.141:8081/artifactory' //配置artifactory地址  
         
         //通过aql设置质量关卡  
