@@ -94,7 +94,7 @@ node{
         requestBody: aql,
         url: "${arti_url}/api/search/aql"
 
-        echo "Status: " + response.status echo "Content: " + response.content echo aql def props = readJSON text: response.content
+        echo "Status: " + response.status echo "Content: " + response.content echo aql def props = readJSON text: response.content
 
         //如果质量关卡没有通过，退出这次构建
         if(props.range.total <= 0){
