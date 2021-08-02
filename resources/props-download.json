@@ -1,7 +1,7 @@
 {
  "files": [
   {
-      "pattern": "libs-snapshot-local/*(Pipeline).zip",
+      "pattern": "slash-maven-snapshot-local/*(Pipeline).zip",
       "target": "Bazinga/{1}/",
       "props": "p1=v1;p2=v2"
   }
