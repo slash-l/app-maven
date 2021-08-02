@@ -19,10 +19,10 @@ node {
         buildInfo = server.upload spec: uploadSpec
 
         // Create the download spec.
-        downloadSpec = readFile 'resources/props-download.json'
+        // downloadSpec = readFile 'resources/props-download.json'
 
         // Download from Artifactory.
-        server.download spec: downloadSpec, buildInfo: buildInfo
+        // server.download spec: downloadSpec, buildInfo: buildInfo
 
         // Publish the build to Artifactory
         server.publishBuildInfo buildInfo
