@@ -5,9 +5,11 @@ node {
     def downloadSpec
     def promotionConfig
 
-    stage ('Build') {
+    stage ('Clone') {
         git url: 'https://gitee.com/mumu79/app-maven.git'
+    }
 
+    stage ('Build') {
         server = Artifactory.server poc-server
 
         // Create the upload spec.
