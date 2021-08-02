@@ -10,7 +10,7 @@ node {
     }
 
     stage ('Build') {
-        server = Artifactory.server poc-server
+        server = Artifactory.server 'poc-server'
 
         // Create the upload spec.
         uploadSpec = readFile 'resources/props-upload.json'
