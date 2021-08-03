@@ -43,7 +43,7 @@ node{
         }
     }
 
-    stage('Collection'){
+    stage('Collection Sonar data'){
         timeout(10) {
             waitForQualityGate()
         }
@@ -82,12 +82,7 @@ node{
         }
     }
 
-    stage('Deploy to Artifactory'){
-        rtMaven.deployer.deployArtifacts buildInfo
-        server.publishBuildInfo buildInfo
-    }
-
-    stage("JUnit test") {
+    stage("Collection unitTest data") {
         //解析测试报告
         // def reportUrl = "/root/.jenkins/workspace/" +buildInfo.name+ "/builds/" +buildInfo.number+ "/performance-reports/JUnit/TEST-artifactory.test.AppTest.xml";
         def reportUrl = "/var/jenkins_home/workspace/" +buildInfo.name+ "/multi3/target/surefire-reports/TEST-artifactory.test.AppTest.xml";
@@ -126,6 +121,11 @@ node{
                 customHeaders: [[name: 'X-JFrog-Art-Api', value: ARTIFACTORY_API_KEY]],
                 url: "${ARTIFACTORY_URL}api/storage/${PROMOTION_SOURCE_REPO}/${pom.parent.groupId.replace(".","/")}/${pom.artifactId}/${pom.parent.version}/${pom.artifactId}-${warLatestVersion}.war?properties=JunitTestCassRate=${passRate};totalCases=${totalCases}"
 
+    }
+
+    stage('Deploy to Artifactory'){
+        rtMaven.deployer.deployArtifacts buildInfo
+        server.publishBuildInfo buildInfo
     }
 
     // sync: 拷贝符合质量关卡的包到指定仓库
