@@ -170,7 +170,7 @@ node{
             'failFast'           : true,
             'copy'               : true
         ]
-        artiServer.promote promotionConfig
+        server.promote promotionConfig
     }
 
     /*stage('Quality Gate') {
