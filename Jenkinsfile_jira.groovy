@@ -28,11 +28,11 @@ node {
         rtMaven.resolver releaseRepo: 'slash-guide-maven-virtual', snapshotRepo: 'slash-guide-maven-virtual', server: server
     }
 
-    stage ('Exec Maven') {
+    stage ('Maven build') {
         rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
     }
 
-    stage ('Publish build info') {
+    stage ('Deploy to Artifactory') {
         server.publishBuildInfo buildInfo
     }
 
