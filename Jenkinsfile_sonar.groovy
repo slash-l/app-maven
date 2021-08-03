@@ -162,7 +162,6 @@ node{
         def aql = '''items.find({
             "@build.name": {"$eq" : "''' + buildInfo.name + '''"},
             "@build.number": {"$eq" : "''' + buildInfo.number + '''"},
-//            "@qa.code.quality.coverage": {"$gte" : "''' + '0.8' + '''"}
             "@test" : {"$eq" : "ok"}
         })
         '''
