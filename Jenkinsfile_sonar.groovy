@@ -124,20 +124,38 @@ node{
         httpRequest httpMode: 'PUT',
                 consoleLogResponseBody: true,
                 customHeaders: [[name: 'X-JFrog-Art-Api', value: ARTIFACTORY_API_KEY]],
-                url: "${ARTIFACTORY_URL}api/storage/${PROMOTION_SOURCE_REPO}/${pom.parent.groupId.replace(".","/")}/${pom.artifactId}/${pom.parent.version}/${pom.artifactId}-${warLatestVersion}.war?properties=passRate=${passRate};totalCases=${totalCases}"
+                url: "${ARTIFACTORY_URL}api/storage/${PROMOTION_SOURCE_REPO}/${pom.parent.groupId.replace(".","/")}/${pom.artifactId}/${pom.parent.version}/${pom.artifactId}-${warLatestVersion}.war?properties=JunitTestCassRate=${passRate};totalCases=${totalCases}"
 
     }
 
     // sync: 拷贝符合质量关卡的包到指定仓库
-    stage('sync') {
-        write_file_path = "./sync.spec"
-        writeFile file: write_file_path, text: file_contents, encoding: "UTF-8"
-        // read file and print it out
-        fileContents = readFile file: write_file_path, encoding: "UTF-8"
-        println fileContents
-
-        sh 'jfrog rt cp --spec=sync.spec'
-    }
+    // 定义质量关卡
+//    file_contents = '''
+//    {
+//      "files": [
+//        {
+//          "aql": {
+//            "items.find": {
+//             "repo": PROMOTION_SOURCE_REPO,
+//             "@test" : {"$eq" : "ok"}
+//            }
+//          },
+//
+//          "target": PROMOTION_TARGET_REPO
+//        }
+//      ]
+//    }
+//    '''
+//
+//    stage('sync') {
+//        write_file_path = "./sync.spec"
+//        writeFile file: write_file_path, text: file_contents, encoding: "UTF-8"
+//        // read file and print it out
+//        fileContents = readFile file: write_file_path, encoding: "UTF-8"
+//        println fileContents
+//
+//        sh 'jfrog rt cp --spec=sync.spec'
+//    }
 
     //promotion操作，进行包的升级
     stage('promotion') {
