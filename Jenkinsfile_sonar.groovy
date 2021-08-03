@@ -157,35 +157,19 @@ node{
 //        sh 'jfrog rt cp --spec=sync.spec'
 //    }
 
-    //promotion操作，进行包的升级
-    stage('promotion') {
-        def promotionConfig = [
-            'buildName'          : buildInfo.name,
-            'buildNumber'        : buildInfo.number,
-            'targetRepo'         : PROMOTION_TARGET_REPO,
-            'comment'            : 'this is the promotion comment',
-            'sourceRepo'         : PROMOTION_SOURCE_REPO,
-            'status'             : 'Released',
-            'includeDependencies': false,
-            'failFast'           : true,
-            'copy'               : true
-        ]
-        server.promote promotionConfig
-    }
-
-    /*stage('Quality Gate') {
-        arti_url = 'http://182.92.214.141:8081/artifactory' //配置artifactory地址
-
+    stage('Quality Gate') {
         //通过aql设置质量关卡
         def aql = '''items.find({
             "@build.name": {"$eq" : "''' + buildInfo.name + '''"},
             "@build.number": {"$eq" : "''' + buildInfo.number + '''"},
-            "@qa.code.quality.coverage": {"$gte" : "''' + '0.8' + '''"}
+//            "@qa.code.quality.coverage": {"$gte" : "''' + '0.8' + '''"}
             "@test" : {"$eq" : "ok"}
         })
         '''
 
-        def response = httpRequest consoleLogResponseBody: true,contentType: 'TEXT_PLAIN',httpMode: 'POST',ignoreSslErrors: true,requestBody: aql,url: "${arti_url}/api/search/aql",authentication: [Username: 'liujy', Password: 'Helloljy']
+        def response = httpRequest customHeaders: [[name: 'X-JFrog-Art-Api', value: ARTIFACTORY_API_KEY]],
+                consoleLogResponseBody: true,contentType: 'TEXT_PLAIN',httpMode: 'POST',ignoreSslErrors: true,
+                requestBody: aql,url: "${ARTIFACTORY_URL}/api/search/aql"
 
         echo "Status: " + response.status
         echo "Content: " + response.content
@@ -196,5 +180,22 @@ node{
         if(props.range.total <= 0){
             error 'Did not pass the quality gate!!!'
         }
-    }*/
+    }
+
+    //promotion操作，进行包的升级
+    stage('promotion') {
+        def promotionConfig = [
+                'buildName'          : buildInfo.name,
+                'buildNumber'        : buildInfo.number,
+                'targetRepo'         : PROMOTION_TARGET_REPO,
+                'comment'            : 'this is the promotion comment',
+                'sourceRepo'         : PROMOTION_SOURCE_REPO,
+                'status'             : 'Released',
+                'includeDependencies': false,
+                'failFast'           : true,
+                'copy'               : true
+        ]
+        server.promote promotionConfig
+    }
+
 }
