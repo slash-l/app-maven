@@ -92,7 +92,7 @@ node{
         // def reportUrl = "/root/.jenkins/workspace/" +buildInfo.name+ "/builds/" +buildInfo.number+ "/performance-reports/JUnit/TEST-artifactory.test.AppTest.xml";
         def reportUrl = "/root/.jenkins/workspace/" +buildInfo.name+ "multi3/target/surefire-reports/TEST-artifactory.test.AppTest.xml";
         echo "${reportUrl}"
-        sh "cat ${reportUrl}"
+        sh "sudo cat ${reportUrl}"
 
         def testSuite = new XmlParser().parse(reportUrl);
         def totalCases = Integer.parseInt( testSuite.attribute("tests"));
