@@ -90,7 +90,7 @@ node{
     stage("JUnit test") {
         //解析测试报告
         // def reportUrl = "/root/.jenkins/workspace/" +buildInfo.name+ "/builds/" +buildInfo.number+ "/performance-reports/JUnit/TEST-artifactory.test.AppTest.xml";
-        def reportUrl = "/root/.jenkins/workspace/" +buildInfo.name+ "multi3/target/surefire-reports/TEST-artifactory.test.AppTest.xml";
+        def reportUrl = "/root/.jenkins/workspace/" +buildInfo.name+ "/multi3/target/surefire-reports/TEST-artifactory.test.AppTest.xml";
         echo "${reportUrl}"
         sh "cat ${reportUrl}"
 
