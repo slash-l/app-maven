@@ -16,7 +16,7 @@ def PROMOTION_SOURCE_REPO = 'slash-guide-maven-dev-local'
 def PROMOTION_TARGET_REPO = 'slash-maven-release-local'
 
 node{
-    stage('Artifactory configuration'){
+    stage('Artifactory config'){
         server = Artifactory.server 'poc-server'
         rtMaven = Artifactory.newMavenBuild()
         rtMaven.tool = 'maven'
