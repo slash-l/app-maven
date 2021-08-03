@@ -157,29 +157,32 @@ node{
 //        sh 'jfrog rt cp --spec=sync.spec'
 //    }
 
-    stage('Quality Gate') {
-        //通过aql设置质量关卡
-        def aql = '''items.find({
-            "@build.name": {"$eq" : "''' + buildInfo.name + '''"},
-            "@build.number": {"$eq" : "''' + buildInfo.number + '''"},
-            "@qa.code.quality.coverage": {"$gte" : "''' + '0.8' + '''"}
-        })
-        '''
-
-        def response = httpRequest customHeaders: [[name: 'X-JFrog-Art-Api', value: ARTIFACTORY_API_KEY]],
-                consoleLogResponseBody: true,contentType: 'TEXT_PLAIN',httpMode: 'POST',ignoreSslErrors: true,
-                requestBody: aql,url: "${ARTIFACTORY_URL}/api/search/aql"
-
-        echo "Status: " + response.status
-        echo "Content: " + response.content
-        echo aql
-        def props = readJSON text: response.content
-
-        //如果质量关卡没有通过，退出这次构建
-        if(props.range.total <= 0){
-            error 'Did not pass the quality gate!!!'
-        }
-    }
+//    stage('Quality Gate') {
+//        //通过aql设置质量关卡
+//        def aql = '''items.find({
+//            "@build.name": {"$eq" : "''' + buildInfo.name + '''"},
+//            "@build.number": {"$eq" : "''' + buildInfo.number + '''"},
+//            "@qa.code.quality.coverage": {"$gte" : "''' + '0.8' + '''"}
+//        })
+//        '''
+//
+//        def response =
+//        httpRequest httpMode: 'POST',
+//                consoleLogResponseBody: true,
+//                customHeaders: [[name: 'X-JFrog-Art-Api', value: ARTIFACTORY_API_KEY]],
+//                contentType: 'TEXT_PLAIN',ignoreSslErrors: true,
+//                requestBody: aql,url: "${ARTIFACTORY_URL}/api/search/aql"
+//
+//        echo "Status: " + response.status
+//        echo "Content: " + response.content
+//        echo aql
+//        def props = readJSON text: response.content
+//
+//        //如果质量关卡没有通过，退出这次构建
+//        if(props.range.total <= 0){
+//            error 'Did not pass the quality gate!!!'
+//        }
+//    }
 
     //promotion操作，进行包的升级
     stage('promotion') {
