@@ -36,15 +36,6 @@ node{
         rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
     }
 
-    stage('xray scan'){
-        def scanConfig = [
-                'buildName': buildInfo.name, //构建名称
-                'buildNumber': buildInfo.number, //构建号
-                'failBuild': false //可强制跳过Fail Build
-        ]
-        def scanResult = server.xrayScan scanConfig
-    }
-
     stage('Sonar Scan'){
         def scannerHome = tool ToolSonar
         withSonarQubeEnv(SonarQubeServer){
@@ -130,6 +121,15 @@ node{
                 customHeaders: [[name: 'X-JFrog-Art-Api', value: ARTIFACTORY_API_KEY]],
                 url: "${ARTIFACTORY_URL}api/storage/${PROMOTION_SOURCE_REPO}/${pom.parent.groupId.replace(".","/")}/${pom.artifactId}/${pom.parent.version}/${pom.artifactId}-${warLatestVersion}.war?properties=JunitTestCassRate=${passRate};totalCases=${totalCases}"
 
+    }
+
+    stage('xray scan'){
+        def scanConfig = [
+                'buildName': buildInfo.name, //构建名称
+                'buildNumber': buildInfo.number, //构建号
+                'failBuild': false //可强制跳过Fail Build
+        ]
+        def scanResult = server.xrayScan scanConfig
     }
 
     stage('Deploy to Artifactory'){
