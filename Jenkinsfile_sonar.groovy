@@ -184,6 +184,15 @@ node{
 //        }
 //    }
 
+    stage('xray scan'){
+        def scanConfig = [
+            'buildName': buildInfo.name, //构建名称
+            'buildNumber': buildInfo.number, //构建号
+            'failBuild': false //可强制跳过Fail Build
+        ]
+        def scanResult = server.xrayScan scanConfig
+    }
+
     //promotion操作，进行包的升级
     stage('promotion') {
         def promotionConfig = [
