@@ -36,6 +36,15 @@ node{
         rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
     }
 
+    stage('xray scan'){
+        def scanConfig = [
+                'buildName': buildInfo.name, //构建名称
+                'buildNumber': buildInfo.number, //构建号
+                'failBuild': false //可强制跳过Fail Build
+        ]
+        def scanResult = server.xrayScan scanConfig
+    }
+
     stage('Sonar Scan'){
         def scannerHome = tool ToolSonar
         withSonarQubeEnv(SonarQubeServer){
@@ -183,15 +192,6 @@ node{
 //            error 'Did not pass the quality gate!!!'
 //        }
 //    }
-
-    stage('xray scan'){
-        def scanConfig = [
-            'buildName': buildInfo.name, //构建名称
-            'buildNumber': buildInfo.number, //构建号
-            'failBuild': false //可强制跳过Fail Build
-        ]
-        def scanResult = server.xrayScan scanConfig
-    }
 
     //promotion操作，进行包的升级
     stage('promotion') {
