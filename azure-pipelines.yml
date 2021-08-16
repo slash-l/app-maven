@@ -13,4 +13,15 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
+- task: ArtifactoryGenericDownload@3
+  inputs:
+    connection: 'rt-server'
+    specSource: 'taskConfiguration'
+    failNoOp: true
 
+- task: ArtifactoryProperties@1
+  inputs:
+    command: 'set'
+    artifactoryService: 'rt-server'
+    setProps: 'a=1;b=2'
+    specSource: 'taskConfiguration'
