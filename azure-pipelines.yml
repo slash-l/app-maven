@@ -10,5 +10,11 @@ pool:
   vmImage: ubuntu-16.04
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: Bash@3
+  inputs:
+    targetType: inline
+    script: |
+      cd $M2_HOME/boot
+      ls -la
+      rm ./plexus-classworlds.license
+
