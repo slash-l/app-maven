@@ -10,7 +10,7 @@ pool:
   vmImage: ubuntu-16.04
 
 steps:
-- task: ArtifactoryMaven@1
+- task: ArtifactoryMaven@2
   inputs:
     mavenPomFile: 'pom.xml'
     goals: 'clean install'
