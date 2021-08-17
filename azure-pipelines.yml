@@ -10,6 +10,13 @@ pool:
   vmImage: ubuntu-16.04
 
 steps:
+- task: ArtifactoryToolsInstaller@1
+  inputs:
+    artifactoryService: 'rt-server'
+    cliInstallationRepo: 'jfrog-cli'
+    installExtractors: true
+    extractorsInstallationRepo: 'jcenter'
+    
 - task: ArtifactoryMaven@2
   inputs:
     mavenPomFile: 'pom.xml'
