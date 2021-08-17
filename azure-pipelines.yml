@@ -17,4 +17,18 @@ steps:
       cd $M2_HOME/boot
       ls -la
       rm ./plexus-classworlds.license
+- task: ArtifactoryMaven@1
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'clean install'
+    artifactoryResolverService: 'rt-server'
+    targetResolveReleaseRepo: 'slash-guide-maven-virtual'
+    targetResolveSnapshotRepo: 'slash-guide-maven-virtual'
+    artifactoryDeployService: 'rt-server'
+    targetDeployReleaseRepo: 'slash-guide-maven-virtual'
+    targetDeploySnapshotRepo: 'slash-guide-maven-virtual'
+    collectBuildInfo: true
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+    includeEnvVars: true
 
