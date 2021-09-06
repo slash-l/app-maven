@@ -1,0 +1,41 @@
+name: 'JFrog CI Integration'
+on: [push]
+jobs:
+ jfrog-ci-integration:
+   runs-on: ubuntu-latest
+   env:
+     JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
+     JFROG_BUILD_STATUS: PASS
+   steps:
+     - name: Checkout
+       uses: actions/checkout@v2
+     - name: Setup JFrog CLI
+       uses: jfrog/setup-jfrog-cli@v1
+     - name: Set up JDK 11
+       uses: actions/setup-java@v2
+       with:
+         java-version: '11'
+         distribution: 'adopt'
+     - name: Run Maven build
+       run: |
+         # Init JFrog CLI Maven config
+         MVN_PATH=`which mvn` && export M2_HOME=`readlink -f $MVN_PATH | xargs dirname | xargs dirname`
+         # Replace ‘my_art_server’ with your imported server
+         jfrog rt mvn-config --server-id-resolve=my_art_server --repo-resolve-releases=libs-release-remote --repo-resolve-snapshots=libs-snapshot-remote
+         # Build the maven project
+         jfrog rt mvn clean install
+     - name: Failure check
+       run: |
+         echo "JFROG_BUILD_STATUS=FAIL" >> $GITHUB_ENV
+       if: failure()
+     - name: Publish Maven build
+       run: |
+         # Collect environment variables for the build
+         jfrog rt bce
+         # Collect VCS details from git and add them to the build
+         jfrog rt bag
+         # Publish build info
+         jfrog rt bp
+         # Scan build
+         jfrog rt bs
+       if: always()
