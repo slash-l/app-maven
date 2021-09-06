@@ -21,7 +21,7 @@ jobs:
          # Init JFrog CLI Maven config
          MVN_PATH=`which mvn` && export M2_HOME=`readlink -f $MVN_PATH | xargs dirname | xargs dirname`
          # Replace ‘my_art_server’ with your imported server
-         jfrog rt mvn-config --server-id-resolve=my_art_server --repo-resolve-releases=libs-release-remote --repo-resolve-snapshots=libs-snapshot-remote
+         jfrog rt mvn-config --server-id-resolve=rt_server --repo-resolve-releases=slash-guide-maven-virtual --repo-resolve-snapshots=slash-guide-maven-virtual
          # Build the maven project
          jfrog rt mvn clean install
      - name: Failure check
