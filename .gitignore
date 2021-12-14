@@ -39,6 +39,7 @@ hs_err_pid*
 .idea/modules.xml
 .idea/sonarlint/
 .idea/vcs.xml
+.idea/
 app-maven.iml
 multi.iml
 multi1/multi1.iml
