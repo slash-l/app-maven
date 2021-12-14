@@ -4,8 +4,8 @@ TestResultPath='multi3/target/surefire-reports'
 def server
 def rtMaven
 def buildInfo
-def ARTIFACTORY_URL = 'http://182.92.214.141:8081/artifactory/'
-def ARTIFACTORY_API_KEY = 'AKCp8jRGcmjskkYxxQK9qz1JM8zhsV9ivYrt7sXT3qycPiBDNkTPDuc8XCumhs5KtZixZQ6XQ'
+def ARTIFACTORY_URL = 'http://ip:8081/artifactory/'
+def ARTIFACTORY_API_KEY = '---------------'
 
 def RESOLVE_SNAPSHOT_REPO = 'slash-guide-maven-virtual'
 def RESOLVE_RELEASE_REPO = 'slash-guide-maven-virtual'
