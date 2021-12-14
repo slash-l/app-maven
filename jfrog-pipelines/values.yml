@@ -1,0 +1,3 @@
+mavenRepo:
+  gitProvider: SlashIntegration
+  path: slash-l/app-maven
