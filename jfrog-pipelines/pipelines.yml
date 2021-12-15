@@ -20,7 +20,7 @@ resources:
       runID: 1
 
 pipelines:
-  - name: my_first_pipeline
+  - name: slash_first_pipeline
     steps:
       - name: p1_s1
         type: Bash
@@ -70,7 +70,7 @@ pipelines:
             - write_output myPropertyBag commitSha=$commitSha runID=$current_runid
             - echo "commitSha=$commitSha runID=$current_runid"
 
-  - name: my_second_pipeline
+  - name: slash_second_pipeline
     steps:
       - name: p2_s1
         type: Bash

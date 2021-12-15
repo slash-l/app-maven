@@ -32,6 +32,11 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.24</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -79,13 +84,13 @@
     <distributionManagement>
         <repository>
             <id>central</id>
-            <name>jfrogchina-demo-releases</name>
-            <url>http://182.92.214.141:8081/artifactory/slash-guide-maven-virtual</url>
+            <name>slash-maven-virtual</name>
+            <url>https://soleng.jfrog.io/artifactory/slash-maven-virtual</url>
         </repository>
         <snapshotRepository>
             <id>snapshots</id>
-            <name>jfrogchina-demo-snapshots</name>
-            <url>http://182.92.214.141:8081/artifactory/slash-guide-maven-virtual</url>
+            <name>slash-maven-virtual</name>
+            <url>https://soleng.jfrog.io/artifactory/slash-maven-virtual</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
