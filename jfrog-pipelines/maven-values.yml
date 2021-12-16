@@ -1,0 +1,4 @@
+gitProvider: SlashIntegration
+artifactory: SlashArti
+repoPath: slash-l/app-maven
+deployerRepo: slash-maven-dev-local
