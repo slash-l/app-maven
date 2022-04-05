@@ -46,7 +46,7 @@ node{
     }
 
     stage('Check out'){
-        git url: 'https://gitee.com/mumu79/app-maven.git'
+        git url: 'git@github.com:slash-l/app-maven.git'
     }
 
     stage('Maven build'){
