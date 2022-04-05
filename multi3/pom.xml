@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.jfrog.test</groupId>
         <artifactId>multi</artifactId>
-        <version>3.7-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>multi3</artifactId>
@@ -15,7 +15,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>multi1</artifactId>
-           <version>${project.parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
 

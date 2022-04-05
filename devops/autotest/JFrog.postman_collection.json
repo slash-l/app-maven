@@ -1,0 +1,260 @@
+{
+	"info": {
+		"name": "JFrog",
+		"_postman_id": "8981c08d-4cf2-e9f9-d356-d7135150eaf7",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get artifactory",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "****",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://slash-app.natapp1.cc/artifactory/api/storage/slash-maven-dev-local/",
+					"protocol": "http",
+					"host": [
+						"slash-app",
+						"natapp1",
+						"cc"
+					],
+					"path": [
+						"artifactory",
+						"api",
+						"storage",
+						"slash-maven-dev-local",
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "set properties",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Slashliu0709!",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": ""
+					}
+				},
+				"url": {
+					"raw": "http://slash-app.natapp1.cc/artifactory/api/storage/slash-maven-dev-local/artifactory-logo.png?properties=os=win,linux|qa=done|recursive=0",
+					"protocol": "http",
+					"host": [
+						"slash-app",
+						"natapp1",
+						"cc"
+					],
+					"path": [
+						"artifactory",
+						"api",
+						"storage",
+						"slash-maven-dev-local",
+						"artifactory-logo.png"
+					],
+					"query": [
+						{
+							"key": "properties",
+							"value": "os=win,linux|qa=done|recursive=0",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "upload artifact",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Slashliu0709!",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": ""
+					}
+				},
+				"url": {
+					"raw": "http://slash-app.natapp1.cc/artifactory/slash-maven-dev-local/test.txt",
+					"protocol": "http",
+					"host": [
+						"slash-app",
+						"natapp1",
+						"cc"
+					],
+					"path": [
+						"artifactory",
+						"slash-maven-dev-local",
+						"test.txt"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "aql search repo",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "de84d85b-da9c-4665-84ae-a75dfcc1bca1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Slashliu0709!",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/plain"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "items.find(\n    {\n        \"repo\":{\"$eq\":\"slash-maven-dev-local\"}\n    }\n)"
+				},
+				"url": {
+					"raw": "http://slash-app.natapp1.cc/artifactory/api/search/aql",
+					"protocol": "http",
+					"host": [
+						"slash-app",
+						"natapp1",
+						"cc"
+					],
+					"path": [
+						"artifactory",
+						"api",
+						"search",
+						"aql"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "ping",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bace416e-f4c3-43d1-87d6-7deefc176e4b",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r    pm.response.to.have.status(200);\r});\rpm.test(\"Body is correct\", function () {\r    pm.response.to.have.body(\"OK1\");\r});\r"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Slashliu0709!",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://slash-app.natapp1.cc/artifactory/api/system/ping",
+					"protocol": "http",
+					"host": [
+						"slash-app",
+						"natapp1",
+						"cc"
+					],
+					"path": [
+						"artifactory",
+						"api",
+						"system",
+						"ping"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

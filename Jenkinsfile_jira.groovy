@@ -1,5 +1,5 @@
 node {
-    def server = Artifactory.server 'poc-server'
+    def server = Artifactory.server 'demo-server'
     def rtMaven = Artifactory.newMavenBuild()
     def buildInfo = Artifactory.newBuildInfo()
 
@@ -24,7 +24,7 @@ node {
 
     stage ('Artifactory configuration') {
         rtMaven.tool = 'maven' // Tool name from Jenkins configuration
-        rtMaven.deployer releaseRepo: 'slash-guide-maven-dev-local', snapshotRepo: 'slash-guide-maven-dev-local', server: server
+        rtMaven.deployer releaseRepo: 'slash-maven-dev-local', snapshotRepo: 'slash-maven-dev-local', server: server
         rtMaven.resolver releaseRepo: 'slash-guide-maven-virtual', snapshotRepo: 'slash-guide-maven-virtual', server: server
     }
 
@@ -43,7 +43,7 @@ node {
         echo "requirements : ${requirements}"
         def revisionIds = getRevisionIds();
         echo "revisionIds : ${revisionIds}"
-        sh 'curl -uliujy:Helloljy -X PUT "http://182.92.214.141:8081/artifactory/api/storage/slash-guide-maven-dev-local/org/jfrog/test?properties=project.issues=' + requirements+ ';project.revisionIds=' + revisionIds + ';JiraUrl=https://jfrogchina.atlassian.net/browse/' + requirements +'"'
+        sh 'curl -uliujy:Helloljy -X PUT "http://182.92.214.141:8081/artifactory/api/storage/slash-maven-dev-local/org/jfrog/test?properties=project.issues=' + requirements+ ';project.revisionIds=' + revisionIds + ';JiraUrl=https://jfrogchina.atlassian.net/browse/' + requirements +'"'
     }
 */
 

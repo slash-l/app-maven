@@ -1,23 +1,41 @@
 ToolSonar='sonar-scanner'
-SonarQubeServer='sonarqube'
+
 TestResultPath='multi3/target/surefire-reports'
 def server
 def rtMaven
 def buildInfo
-def ARTIFACTORY_URL = 'http://ip:8081/artifactory/'
-def ARTIFACTORY_API_KEY = '---------------'
 
-def RESOLVE_SNAPSHOT_REPO = 'slash-guide-maven-virtual'
-def RESOLVE_RELEASE_REPO = 'slash-guide-maven-virtual'
-def DEPLOY_SNAPSHOT_REPO = 'slash-guide-maven-dev-local'
-def DEPLOY_RELEASE_REPO = 'slash-guide-maven-dev-local'
 
-def PROMOTION_SOURCE_REPO = 'slash-guide-maven-dev-local'
-def PROMOTION_TARGET_REPO = 'slash-maven-release-local'
+SonarQubeServer='sonarqube'
+//SonarQubeServer='sonarqube-hotspot'
+
+def user_apikey
+
+// use Saas environment
+withCredentials([string(credentialsId: 'saas-arti-key', variable: 'secret_text')]) {
+    user_apikey = "${secret_text}"
+}
+def SERVER_NAME = "saas-server"
+def ARTIFACTORY_URL = 'https://soleng.jfrog.io/artifactory/'
+
+// use home environment
+//withCredentials([string(credentialsId: 'home-arti-key', variable: 'secret_text')]) {
+//    user_apikey = "${secret_text}"
+//}
+//def SERVER_NAME = "home-server"
+//def ARTIFACTORY_URL = 'http://192.168.1.21:8081/artifactory/'
+
+def RESOLVE_SNAPSHOT_REPO = 'slash-maven-virtual'
+def RESOLVE_RELEASE_REPO = 'slash-maven-virtual'
+def DEPLOY_SNAPSHOT_REPO = 'slash-maven-dev-local'
+def DEPLOY_RELEASE_REPO = 'slash-maven-dev-local'
+
+def PROMOTION_SOURCE_REPO = 'slash-maven-dev-local'
+def PROMOTION_TARGET_REPO = 'slash-maven-test-local'
 
 node{
-    stage('Artifactory config'){
-        server = Artifactory.server 'poc-server'
+    stage('Artifactory config'){
+        server = Artifactory.server SERVER_NAME
         rtMaven = Artifactory.newMavenBuild()
         rtMaven.tool = 'maven'
         rtMaven.deployer releaseRepo:DEPLOY_RELEASE_REPO, snapshotRepo:DEPLOY_SNAPSHOT_REPO, server: server
@@ -27,7 +45,7 @@ node{
         buildInfo.env.capture = true
     }
 
-    stage('Check out'){
+    stage('Check out'){
         git url: 'https://gitee.com/mumu79/app-maven.git'
     }
 
@@ -36,7 +54,7 @@ node{
         rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
     }
 
-    stage('Sonar Scan'){
+    stage('Sonar Scan'){
         def scannerHome = tool ToolSonar
         withSonarQubeEnv(SonarQubeServer){
             sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=${JOB_NAME} -Dsonar.sources=. -Dsonar.java.binaries=* -Dsonar.junit.reportPaths=${TestResultPath}"
@@ -85,7 +103,7 @@ node{
     stage("Collection unitTest data") {
         //解析测试报告
         // def reportUrl = "/root/.jenkins/workspace/" +buildInfo.name+ "/builds/" +buildInfo.number+ "/performance-reports/JUnit/TEST-artifactory.test.AppTest.xml";
-        def reportUrl = "/var/jenkins_home/workspace/" +buildInfo.name+ "/multi3/target/surefire-reports/TEST-artifactory.test.AppTest.xml";
+        def reportUrl = "/Users/jingyil/.jenkins/workspace/" +buildInfo.name+ "/multi3/target/surefire-reports/TEST-artifactory.test.AppTest.xml";
         echo "${reportUrl}"
         sh "cat ${reportUrl}"
 
@@ -111,14 +129,14 @@ node{
         def latestVersionUrl = "${ARTIFACTORY_URL}api/search/latestVersion?g=${pom.parent.groupId.replace(".","/")}&a=${pom.artifactId}&v=${pom.parent.version}&repos=${PROMOTION_SOURCE_REPO}"
         def latestVersionUrlResponse = httpRequest consoleLogResponseBody: true,
                 customHeaders: [[name: 'X-JFrog-Art-Api',
-                                 value: ARTIFACTORY_API_KEY]],
+                                 value: user_apikey]],
                 ignoreSslErrors: true,
                 url: latestVersionUrl
         def warLatestVersion = latestVersionUrlResponse.content
         echo "warLatestVersion:${warLatestVersion}"
         httpRequest httpMode: 'PUT',
                 consoleLogResponseBody: true,
-                customHeaders: [[name: 'X-JFrog-Art-Api', value: ARTIFACTORY_API_KEY]],
+                customHeaders: [[name: 'X-JFrog-Art-Api', value: user_apikey]],
                 url: "${ARTIFACTORY_URL}api/storage/${PROMOTION_SOURCE_REPO}/${pom.parent.groupId.replace(".","/")}/${pom.artifactId}/${pom.parent.version}/${pom.artifactId}-${warLatestVersion}.war?properties=JunitTestCassRate=${passRate};totalCases=${totalCases}"
 
     }
@@ -128,73 +146,20 @@ node{
         server.publishBuildInfo buildInfo
     }
 
-    // sync: 拷贝符合质量关卡的包到指定仓库
-    // 定义质量关卡
-//    file_contents = '''
-//    {
-//      "files": [
-//        {
-//          "aql": {
-//            "items.find": {
-//             "repo": PROMOTION_SOURCE_REPO,
-//             "@test" : {"$eq" : "ok"}
-//            }
-//          },
-//
-//          "target": PROMOTION_TARGET_REPO
-//        }
-//      ]
-//    }
-//    '''
-//
-//    stage('sync') {
-//        write_file_path = "./sync.spec"
-//        writeFile file: write_file_path, text: file_contents, encoding: "UTF-8"
-//        // read file and print it out
-//        fileContents = readFile file: write_file_path, encoding: "UTF-8"
-//        println fileContents
-//
-//        sh 'jfrog rt cp --spec=sync.spec'
-//    }
-
-//    stage('Quality Gate') {
-//        //通过aql设置质量关卡
-//        def aql = '''items.find({
-//            "@build.name": {"$eq" : "''' + buildInfo.name + '''"},
-//            "@build.number": {"$eq" : "''' + buildInfo.number + '''"},
-//            "@qa.code.quality.coverage": {"$gte" : "''' + '0.8' + '''"}
-//        })
-//        '''
-//
-//        def response =
-//        httpRequest httpMode: 'POST',
-//                consoleLogResponseBody: true,
-//                customHeaders: [[name: 'X-JFrog-Art-Api', value: ARTIFACTORY_API_KEY]],
-//                contentType: 'TEXT_PLAIN',ignoreSslErrors: true,
-//                requestBody: aql,url: "${ARTIFACTORY_URL}/api/search/aql"
-//
-//        echo "Status: " + response.status
-//        echo "Content: " + response.content
-//        echo aql
-//        def props = readJSON text: response.content
-//
-//        //如果质量关卡没有通过，退出这次构建
-//        if(props.range.total <= 0){
-//            error 'Did not pass the quality gate!!!'
-//        }
-//    }
-
     stage('xray scan'){
         def scanConfig = [
                 'buildName': buildInfo.name, //构建名称
                 'buildNumber': buildInfo.number, //构建号
-                'failBuild': false //可强制跳过Fail Build
+                'failBuild': true
         ]
         def scanResult = server.xrayScan scanConfig
+//        echo "scanResult:" + scanResult;
     }
 
     //promotion操作，进行包的升级
     stage('promotion') {
+        // 根据收集的元数据判断质量门禁，如果通过则执行以下晋级操作
+
         def promotionConfig = [
                 'buildName'          : buildInfo.name,
                 'buildNumber'        : buildInfo.number,
