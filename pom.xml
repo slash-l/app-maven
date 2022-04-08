@@ -8,11 +8,11 @@
     <packaging>pom</packaging>
     <name>Simple Multi Modules Build</name>
 
-    <modules>
-        <module>multi1</module>
-        <module>multi2</module>
-        <module>multi3</module>
-    </modules>
+<!--    <modules>-->
+<!--        <module>multi1</module>-->
+<!--        <module>multi2</module>-->
+<!--        <module>multi3</module>-->
+<!--    </modules>-->
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,7 +31,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.21</version>
+            <version>1.2.24</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
