@@ -1,0 +1,51 @@
+image: maven:3.5.4-jdk-8-alpine
+
+before_script:
+  # - apk update && apk upgrade && apk add git  
+  - apk add git
+
+  # Set the M2_HOME environment variable 
+  - export M2_HOME=/usr/share/maven
+    
+  # Download JFrog CLI
+  - curl -fL https://getcli.jfrog.io | sh
+
+  # Configure Artifactory instance with JFrog CLI
+  - ./jfrog c add --url=$ARTIFACTORY_URL --user=$ARTIFACTORY_USER --password=$ARTIFACTORY_PASS
+  - ./jfrog c show
+
+stages:
+  - build
+  - test
+  - deploy
+
+build_job:
+  stage: build
+  script:
+#    - mvn clean install
+    # - ./jfrog rt mvn "clean install sonar:sonar -Dsonar.language=java -Dsonar.projectName=gitlabci-maven-artifactory -Dsonar.projectKey=gitlabci-maven-artifactory -Dsonar.java.binaries=* -Dsonar.host.url=http://124.70.55.35:9000 -Dsonar.login=676b9c8a11836d92a9a3fcd81e5c456571c45295" maven.conf --build-name=gitlabci-maven-artifactory --build-number=$CI_JOB_ID
+    - ./jfrog rt mvn "clean install" maven.conf --build-name=gitlabci-maven-artifactory --build-number=$CI_JOB_ID
+  
+    # Collect the environment variables  
+    - ./jfrog rt bce gitlabci-maven-artifactory $CI_JOB_ID
+        
+    # Add jira issue
+    #  - ./jfrog rt bag gitlabci-maven-artifactory $CI_JOB_ID --config jira-cli.conf
+    
+    # Add sonar
+    #  - ./jfrog rt sp "slash-maven-dev-local/org/jfrog/test/multi3/3.7-SNAPSHOT/*.war" "qulity.gate.sonarUrl=http://124.70.55.35:9000/dashboard/index/"
+    
+    # Add properties
+    - ./jfrog rt sp "slash-maven-dev-local/org/jfrog/test/multi3/3.7-SNAPSHOT/*.war" "deploy.tool=ansible"
+    - ./jfrog rt sp "slash-maven-dev-local/org/jfrog/test/multi3/3.7-SNAPSHOT/*.war" "ip=127.0.0.1"
+    
+    # Pass the build information to Artifactory   
+    - ./jfrog rt bp gitlabci-maven-artifactory $CI_JOB_ID
+    
+    # Promote 
+    - ./jfrog rt bpr gitlabci-maven-artifactory $CI_JOB_ID slash-maven-release-local
+    
+    # Xray scan
+    # - ./jfrog rt bs gitlabci-maven-artifactory $CI_JOB_ID --fail=false
+
+  when: manual
