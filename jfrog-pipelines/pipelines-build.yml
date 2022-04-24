@@ -14,7 +14,7 @@ resources:
       sourceArtifactory: {{ .Values.artifactory }}
 
 pipelines:
-  - name: slash_demo_maven
+  - name: slash_app_maven_build
     steps:
       - name: mvn_build_step
         type: MvnBuild
