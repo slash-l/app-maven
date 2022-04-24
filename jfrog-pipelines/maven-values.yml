@@ -1,4 +1,4 @@
-gitProvider: SlashIntegration
-artifactory: SlashArti
+gitProvider: slashGithub
+artifactory: slashAFSass
 repoPath: slash-l/app-maven
-deployerRepo: slash-maven-dev-local
+deployerRepo: slash-maven-release-local
