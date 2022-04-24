@@ -1,5 +1,5 @@
 template: true   # required for local templates
-valuesFilePath: ./maven-values.yml
+valuesFilePath: ./values-build.yml
 
 resources:
   - name: mvn_repo

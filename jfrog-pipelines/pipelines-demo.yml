@@ -1,14 +1,14 @@
 template: true   # required for local templates
-valuesFilePath: ./values.yml
+valuesFilePath: ./values-demo.yml
 
 resources:
   - name: myFirstRepo
     type: GitRepo
     configuration:
       # SCM integration where the repository is located
-      gitProvider: {{ .Values.mavenRepo.gitProvider }} # this will be replaced from values.yml
+      gitProvider: {{ .Values.mavenRepo.gitProvider }} # this will be replaced from values-demo.yml
       # Repository path, including org name/repo name
-      path: {{ .Values.mavenRepo.path }} # this will be replaced from values.yml
+      path: {{ .Values.mavenRepo.path }} # this will be replaced from values-demo.yml
       branches:
         # Specifies which branches will trigger dependent steps
         include: master
