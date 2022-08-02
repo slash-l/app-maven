@@ -103,6 +103,11 @@ node{
         }
     }
 
+    stage('Deploy to Artifactory'){
+        rtMaven.deployer.deployArtifacts buildInfo
+        server.publishBuildInfo buildInfo
+    }
+
     stage("Collection unitTest data") {
         //解析测试报告
         // def reportUrl = "/root/.jenkins/workspace/" +buildInfo.name+ "/builds/" +buildInfo.number+ "/performance-reports/JUnit/TEST-artifactory.test.AppTest.xml";
@@ -144,10 +149,7 @@ node{
 
     }
 
-    stage('Deploy to Artifactory'){
-        rtMaven.deployer.deployArtifacts buildInfo
-        server.publishBuildInfo buildInfo
-    }
+
 
     stage('xray scan'){
         def scanConfig = [
