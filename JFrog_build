@@ -12,9 +12,8 @@ pipeline {
                 rtServer (
                     id: "JFrogChina_Server",
                     url: "http://123.56.224.134/artifactory/",
-                    username: 'slash',
-                    password: 'Slashliu0709!',
-                    //credentialsId: "JFrogChina-api-key"
+                    credentialsId: "JFrogChina-api-key"
+                    bypassProxy: true
                 )
 
                 rtMavenDeployer (
