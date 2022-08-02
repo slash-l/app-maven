@@ -12,11 +12,14 @@ SonarQubeServer='sonarqube'
 def user_apikey
 
 // use Saas environment
-withCredentials([string(credentialsId: 'saas-arti-key', variable: 'secret_text')]) {
+withCredentials([string(credentialsId: 'JFrogChina-key', variable: 'secret_text')]) {
     user_apikey = "${secret_text}"
 }
-def SERVER_NAME = "saas-server"
-def ARTIFACTORY_URL = 'https://soleng.jfrog.io/artifactory/'
+//def SERVER_NAME = "saas-server"
+//def ARTIFACTORY_URL = 'https://soleng.jfrog.io/artifactory/'
+
+def SERVER_NAME = "JFrogChina-Server"
+def ARTIFACTORY_URL = 'http://123.56.224.134/artifactory/'
 
 // use home environment
 //withCredentials([string(credentialsId: 'home-arti-key', variable: 'secret_text')]) {

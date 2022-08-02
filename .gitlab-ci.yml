@@ -46,6 +46,6 @@ build_job:
     - ./jfrog rt bpr gitlabci-maven-artifactory $CI_JOB_ID slash-maven-release-local
     
     # Xray scan
-    # - ./jfrog rt bs gitlabci-maven-artifactory $CI_JOB_ID --fail=false
+    # - ./jf s gitlabci-maven-artifactory $CI_JOB_ID --fail=false
 
   when: manual

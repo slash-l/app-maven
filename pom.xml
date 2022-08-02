@@ -86,24 +86,13 @@
         <repository>
             <id>central</id>
             <name>Enterprise SaaS-releases</name>
-            <url>https://soleng.jfrog.io/artifactory/slash-maven-virtual</url>
+            <url>http://123.56.224.134:80/artifactory/slash-maven-virtual</url>
         </repository>
         <snapshotRepository>
             <id>snapshots</id>
             <name>Enterprise SaaS-snapshots</name>
-            <url>https://soleng.jfrog.io/artifactory/slash-maven-virtual</url>
+            <url>http://123.56.224.134:80/artifactory/slash-maven-virtual</url>
         </snapshotRepository>
-
-<!--        <repository>-->
-<!--            <id>central</id>-->
-<!--            <name>jfrog-platform-artifactory-0-releases</name>-->
-<!--            <url>https://artifactory.ab-inbev.cn/artifactory/bw2-maven-virtual</url>-->
-<!--        </repository>-->
-<!--        <snapshotRepository>-->
-<!--            <id>snapshots</id>-->
-<!--            <name>jfrog-platform-artifactory-0-snapshots</name>-->
-<!--            <url>https://artifactory.ab-inbev.cn/artifactory/bw2-maven-virtual</url>-->
-<!--        </snapshotRepository>-->
 
     </distributionManagement>
 </project>
