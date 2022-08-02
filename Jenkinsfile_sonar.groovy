@@ -12,7 +12,7 @@ SonarQubeServer='sonarqube'
 def user_apikey
 
 // use Saas environment
-withCredentials([string(credentialsId: 'JFrogChina-key', variable: 'secret_text')]) {
+withCredentials([string(credentialsId: 'JFrogChina-api-key', variable: 'secret_text')]) {
     user_apikey = "${secret_text}"
 }
 //def SERVER_NAME = "saas-server"
