@@ -43,22 +43,6 @@ pipeline {
             }
         }
 
-        stage ('Xray scan') {
-            steps {
-                xrayScan (
-                    serverId: "JFrogChina_Server",
-                    failBuild: true
-                )
-            }
-        }
-
-        stage ('Publish build info') {
-            steps {
-                rtPublishBuildInfo (
-                    serverId: "JFrogChina_Server"
-                )
-            }
-        }
 
 
 
