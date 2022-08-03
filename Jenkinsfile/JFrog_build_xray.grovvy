@@ -40,8 +40,7 @@ node('master') {
         rtMaven.deployer.addProperty("xrayresult.summary.total_alerts", xrayurl.summary.total_alerts as String)
     }
 
-
-    stage('Publish To Snapshot') {
+    stage('Publish To Dev Repo') {
         rtMaven.deployer.deployArtifacts buildInfo
     }
 
