@@ -12,9 +12,7 @@ pipeline {
                 rtServer (
                     id: "JFrogChina_Server",
                     url: "http://123.56.224.134/artifactory/",
-                    username: 'slash',
-                    password: 'Slashliu0709!',
-                    //credentialsId: "JFrogChina-accessToken"
+                    credentialsId: "JFrogChina-accessToken"
                 )
 
                 rtMavenDeployer (
@@ -45,14 +43,6 @@ pipeline {
             }
         }
 
-        stage ('Publish build info') {
-            steps {
-                rtPublishBuildInfo (
-                    serverId: "JFrogChina_Server"
-                )
-            }
-        }
-
         stage ('Xray scan') {
             steps {
                 xrayScan (
@@ -61,6 +51,16 @@ pipeline {
                 )
             }
         }
+
+        stage ('Publish build info') {
+            steps {
+                rtPublishBuildInfo (
+                    serverId: "JFrogChina_Server"
+                )
+            }
+        }
+
+
 
     }
 }
