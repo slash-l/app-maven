@@ -50,7 +50,7 @@ pipeline {
             steps {
                 xrayScan (
                     serverId: "JFrogChina_Server",
-                    failBuild: true
+                    failBuild: false
                 )
             }
         }
