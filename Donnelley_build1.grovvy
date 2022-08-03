@@ -31,7 +31,7 @@ node('master') {
         def xrayConfig = [
             'buildName': env.JOB_NAME,
             'buildNumber': env.BUILD_NUMBER,
-            'failBuild': false
+            'failBuild': true
         ]
         def xrayResults = server.xrayScan xrayConfig
         echo xrayResults as String
