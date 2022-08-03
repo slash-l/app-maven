@@ -37,13 +37,23 @@ pipeline {
                     tool: 'maven', // Tool name from Jenkins configuration
                     pom: 'pom.xml',
                     goals: 'clean install',
-                    deployerId: 'deployer-unique-id',
                     resolverId: 'resolver-unique-id'
+                )
+
+                rtPublishBuildInfo (
+                    serverId: "JFrogChina_Server"
                 )
             }
         }
 
-
+        stage ('Xray scan') {
+            steps {
+                xrayScan (
+                    serverId: "JFrogChina_Server",
+                    failBuild: true
+                )
+            }
+        }
 
 
     }
