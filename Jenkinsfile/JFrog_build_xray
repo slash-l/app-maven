@@ -52,6 +52,13 @@ pipeline {
                     serverId: "JFrogChina_Server",
                     failBuild: false
                 )
+
+                rtMavenRun (
+                    tool: 'maven', // Tool name from Jenkins configuration
+                    pom: 'pom.xml',
+                    goals: 'clean install',
+                    deployerId: "deployer-unique-id",
+                )
             }
         }
 
