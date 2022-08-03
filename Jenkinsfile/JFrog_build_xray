@@ -51,7 +51,20 @@ pipeline {
             }
         }
 
+        stage ('Xray scan') {
+            steps {
+                rtServer (
+                    id: "JFrogChina_Server",
+                    url: "http://123.56.224.134/artifactory/",
+                    credentialsId: "JFrogChina-accessToken"
+                )
 
+                xrayScan (
+                    serverId: "JFrogChina_Server",
+                    failBuild: true
+                )
+            }
+        }
 
     }
 }
