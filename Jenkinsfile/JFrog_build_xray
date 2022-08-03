@@ -1,0 +1,65 @@
+pipeline {
+    agent any
+    stages {
+        stage ('Clone') {
+            steps {
+                git branch: 'master', url: "https://github.com/slash-l/app-maven.git"
+            }
+        }
+
+        stage ('Artifactory configuration') {
+            steps {
+                rtServer (
+                    id: "JFrogChina_Server",
+                    url: "http://123.56.224.134/artifactory/",
+                    credentialsId: "JFrogChina-accessToken",
+                    bypassProxy: true
+                )
+
+                rtMavenDeployer (
+                    id: 'deployer-unique-id',
+                    serverId: "JFrogChina_Server",
+                    releaseRepo: "slash-maven-dev-local",
+                    snapshotRepo: "slash-maven-dev-local"
+                )
+
+                rtMavenResolver (
+                    id: 'resolver-unique-id',
+                    serverId: "JFrogChina_Server",
+                    releaseRepo: "slash-maven-virtual",
+                    snapshotRepo: "slash-maven-virtual"
+                )
+            }
+        }
+
+        stage ('Exec Maven') {
+            steps {
+                rtMavenRun (
+                    tool: 'maven', // Tool name from Jenkins configuration
+                    pom: 'pom.xml',
+                    goals: 'clean install',
+                    deployerId: 'deployer-unique-id',
+                    resolverId: 'resolver-unique-id'
+                )
+            }
+        }
+
+        stage ('Publish build info') {
+            steps {
+                rtPublishBuildInfo (
+                    serverId: "JFrogChina_Server"
+                )
+            }
+        }
+
+        stage ('Xray scan') {
+            steps {
+                xrayScan (
+                    serverId: "JFrogChina_Server",
+                    failBuild: true
+                )
+            }
+        }
+
+    }
+}
