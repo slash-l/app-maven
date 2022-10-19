@@ -19,7 +19,7 @@ withCredentials([string(credentialsId: 'JFrogChina-api-key', variable: 'secret_t
 //def ARTIFACTORY_URL = 'https://soleng.jfrog.io/artifactory/'
 
 def SERVER_NAME = "JFrogChina-Server"
-def ARTIFACTORY_URL = 'http://123.56.224.134/artifactory/'
+def ARTIFACTORY_URL = 'https://demo.jfrogchina.com/artifactory/'
 
 // use home environment
 //withCredentials([string(credentialsId: 'home-arti-key', variable: 'secret_text')]) {
