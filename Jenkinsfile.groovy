@@ -1,6 +1,6 @@
 node{
 //	def server = Artifactory.server 'demo-server'
-	def server = Artifactory.server 'saas-server'
+	def server = Artifactory.server 'JFrogChina-Server'
 
 	def rtMaven = Artifactory.newMavenBuild()
 	def buildInfo
@@ -43,8 +43,8 @@ node{
 		server.publishBuildInfo buildInfo
 		def scanConfig = [
 				'buildName': buildInfo.name, //构建名称
-				'buildNumber': buildInfo.number //构建号
-//                'failBuild': true
+				'buildNumber': buildInfo.number, //构建号
+                'failBuild': true
 		]
 		def scanResult = server.xrayScan scanConfig
 		echo "scanResult:" + scanResult;
