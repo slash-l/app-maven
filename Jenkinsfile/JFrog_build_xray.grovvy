@@ -34,9 +34,9 @@ node('master') {
             'failBuild': true
         ]
         def xrayResults = server.xrayScan xrayConfig
-        echo xrayResults as String
+//        echo xrayResults as String
         xrayurl = readJSON text:xrayResults.toString()
-        echo xrayurl as String
+//        echo xrayurl as String
         rtMaven.deployer.addProperty("xrayresult.summary.total_alerts", xrayurl.summary.total_alerts as String)
     }
 
