@@ -11,31 +11,30 @@ node('master') {
 
     stage('Check out') {
         git url: 'git@github.com:slash-l/app-maven.git'
-    }
-
-    stage('Artifactory configuration') {
-        sh "jf mvnc --server-id-resolve=JFrogChina-Server --server-id-deploy=JFrogChina-Server" +
-                " --repo-resolve-releases=slash-maven-virtual --repo-resolve-snapshots=slash-maven-virtual" +
-                " --repo-deploy-releases=slash-maven-virtual --repo-deploy-snapshots=slash-maven-virtual"
-
+        sh "sed -i \"s#BUILDNUM#${env.BUILD_NUMBER}#g\" ./pom.xml"
     }
 
     stage('Maven Build') {
-        sh "jf mvn -f ../pom.xml clean install --build-name=${JOB_NAME} --build-number=${BUILD_NUMBER}"
+        dir('.') {
+            sh "jf mvnc --server-id-resolve=JFrogChina-Server --server-id-deploy=JFrogChina-Server" +
+                    " --repo-resolve-releases=slash-maven-virtual --repo-resolve-snapshots=slash-maven-virtual" +
+                    " --repo-deploy-releases=slash-maven-virtual --repo-deploy-snapshots=slash-maven-virtual";
+            sh "jf mvn -f ./pom.xml clean install --build-name=${JOB_NAME} --build-number=${BUILD_NUMBER}"
+            sh "jf rt bce ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+        }
     }
 
     stage ('Git msg collection') {
         sh "jf rt bag ${JOB_NAME} ${BUILD_NUMBER} --config=/Users/jingyil/work/jfrog/project/jfrog-tools/jfrog-cli-aql/buildInfo/jira-cli.conf";
+    }
+
+    stage('Publish') {
         sh "jf rt bp ${JOB_NAME} ${BUILD_NUMBER}"
-//        server.publishBuildInfo buildInfo
+//        sh "jf mvn deploy"
     }
 
     stage('Xray Scan') {
         sh "jf bs ${JOB_NAME} ${BUILD_NUMBER} --fail=false";
-    }
-
-    stage('Publish To Dev Repo') {
-//        rtMaven.deployer.deployArtifacts buildInfo
     }
 
     stage ('Promotion') {
