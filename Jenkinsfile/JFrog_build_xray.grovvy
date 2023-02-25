@@ -4,8 +4,8 @@ def buildInfo
 
 def RESOLVE_SNAPSHOT_REPO = 'slash-maven-virtual'
 def RESOLVE_RELEASE_REPO = 'slash-maven-virtual'
-def DEPLOY_SNAPSHOT_REPO = 'slash-maven-dev-local'
-def DEPLOY_RELEASE_REPO = 'slash-maven-dev-local'
+def DEPLOY_SNAPSHOT_REPO = 'slash-maven-virtual'
+def DEPLOY_RELEASE_REPO = 'slash-maven-virtual'
 
 node('master') {
     stage('Artifactory configuration') {
@@ -37,6 +37,7 @@ node('master') {
 //        echo xrayResults as String
         xrayurl = readJSON text:xrayResults.toString()
 //        echo xrayurl as String
+        rtMaven.deployer.addProperty("scan", "true")
         rtMaven.deployer.addProperty("xrayresult.summary.total_alerts", xrayurl.summary.total_alerts as String)
     }
 
@@ -45,6 +46,8 @@ node('master') {
     }
 
     stage ('Promotion') {
+
+
         promotionConfig = [
                 //Mandatory parameters
                 'buildName'          : buildInfo.name,
@@ -57,7 +60,7 @@ node('master') {
                 'status'             : 'Released',
                 'includeDependencies': true,
                 'failFast'           : true,
-                'copy'               : true
+                'copy'               : false
         ]
 
         // Promote build
