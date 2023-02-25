@@ -2,7 +2,6 @@ node('master') {
 
     stage('Check out') {
         git url: 'git@github.com:slash-l/app-maven.git'
-//        sh "sed -i \"s#BUILDNUM#${env.BUILD_NUMBER}#g\" ./pom.xml"
     }
 
     stage('Maven Build') {
@@ -21,7 +20,6 @@ node('master') {
 
     stage('Publish') {
         sh "jf rt bp ${JOB_NAME} ${BUILD_NUMBER}"
-//        sh "jf mvn deploy"
     }
 
     stage('Xray Scan') {
