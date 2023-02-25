@@ -24,7 +24,7 @@ node('master') {
     stage('Maven Build') {
 //        rtMaven.tool = 'maven'
 //        rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
-        sh "jf rt mvn -f ../pom.xml clean install ---build-name=${JOB_NAME} --build-number=${BUILD_NUMBER}"
+        sh "jf mvn -f ../pom.xml clean install ---build-name=${JOB_NAME} --build-number=${BUILD_NUMBER}"
     }
 
     stage ('Git msg collection') {
