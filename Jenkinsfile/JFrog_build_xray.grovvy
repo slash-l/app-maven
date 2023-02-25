@@ -24,11 +24,11 @@ node('master') {
     stage('Maven Build') {
         rtMaven.tool = 'maven'
         rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
-        server.publishBuildInfo buildInfo
     }
 
     stage ('Artifactory configuration') {
-        sh "jf c show";
+        sh "jf rt bag ${JOB_NAME} ${BUILD_NUMBER} --config=/Users/jingyil/work/jfrog/project/jfrog-tools/jfrog-cli-aql/buildInfo/jira-cli.conf";
+        server.publishBuildInfo buildInfo
     }
 
     stage('Xray Scan') {
