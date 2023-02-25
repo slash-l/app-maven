@@ -26,9 +26,10 @@ node('master') {
         rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
     }
 
-    stage ('Artifactory configuration') {
+    stage ('Git msg collection') {
         sh "jf rt bag ${JOB_NAME} ${BUILD_NUMBER} --config=/Users/jingyil/work/jfrog/project/jfrog-tools/jfrog-cli-aql/buildInfo/jira-cli.conf";
-        server.publishBuildInfo buildInfo
+        sh "jf rt bp ${JOB_NAME} ${BUILD_NUMBER}";
+//        server.publishBuildInfo buildInfo
     }
 
     stage('Xray Scan') {
