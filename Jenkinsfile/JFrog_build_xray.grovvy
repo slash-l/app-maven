@@ -28,7 +28,6 @@ node('master') {
 
     stage ('Git msg collection') {
         sh "jf rt bag ${JOB_NAME} ${BUILD_NUMBER} --config=/Users/jingyil/work/jfrog/project/jfrog-tools/jfrog-cli-aql/buildInfo/jira-cli.conf";
-        sh "jf rt bp ${JOB_NAME} ${BUILD_NUMBER}";
         server.publishBuildInfo buildInfo
     }
 
