@@ -27,6 +27,10 @@ node('master') {
         server.publishBuildInfo buildInfo
     }
 
+    stage ('Artifactory configuration') {
+        sh "jf c show";
+    }
+
     stage('Xray Scan') {
         def xrayConfig = [
             'buildName': env.JOB_NAME,
@@ -46,7 +50,6 @@ node('master') {
     }
 
     stage ('Promotion') {
-
 
         promotionConfig = [
                 //Mandatory parameters
