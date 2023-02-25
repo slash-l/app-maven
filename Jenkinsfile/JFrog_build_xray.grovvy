@@ -22,15 +22,9 @@ node('master') {
         git url: 'git@github.com:slash-l/app-maven.git'
     }
     stage('Maven Build') {
-//        rtMaven.tool = 'maven'
-//        rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
-        sh "jf mvn -f ../pom.xml clean install ---build-name=${JOB_NAME} --build-number=${BUILD_NUMBER}"
-    }
-
-    stage ('Git msg collection') {
-        sh "jf rt bag ${JOB_NAME} ${BUILD_NUMBER} --config=/Users/jingyil/work/jfrog/project/jfrog-tools/jfrog-cli-aql/buildInfo/jira-cli.conf";
-        sh "jf rt bp ${JOB_NAME} ${BUILD_NUMBER}"
-//        server.publishBuildInfo buildInfo
+        rtMaven.tool = 'maven'
+        rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
+        server.publishBuildInfo buildInfo
     }
 
     stage('Xray Scan') {
