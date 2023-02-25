@@ -7,7 +7,7 @@ import com.alibaba.fastjson.JSON;
  */
 public class Multi3 {
     public static void main(String[] args) {
-        System.out.println("Hello JFrog");
+        System.out.println("Hello JFrog Artifactory");
 
         new Multi1();
 
