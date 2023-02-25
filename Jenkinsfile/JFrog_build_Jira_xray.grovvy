@@ -1,12 +1,3 @@
-def server
-def rtMaven
-def buildInfo
-
-def RESOLVE_SNAPSHOT_REPO = 'slash-maven-virtual'
-def RESOLVE_RELEASE_REPO = 'slash-maven-virtual'
-def DEPLOY_SNAPSHOT_REPO = 'slash-maven-virtual'
-def DEPLOY_RELEASE_REPO = 'slash-maven-virtual'
-
 node('master') {
 
     stage('Check out') {
