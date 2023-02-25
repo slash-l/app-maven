@@ -21,7 +21,7 @@ node('master') {
     }
 
     stage('Maven Build') {
-        sh "jf mvn -f ../pom.xml clean install ---build-name=${JOB_NAME} --build-number=${BUILD_NUMBER}"
+        sh "jf mvn -f ../pom.xml clean install --build-name=${JOB_NAME} --build-number=${BUILD_NUMBER}"
     }
 
     stage ('Git msg collection') {
