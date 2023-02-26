@@ -27,7 +27,7 @@ node('master') {
     }
 
     stage ('Promotion') {
-        sh "jf rt bpr ${JOB_NAME} ${BUILD_NUMBER} slash-maven-release-local"
+        sh "jf rt bpr ${JOB_NAME} ${BUILD_NUMBER} slash-maven-test-local"
     }
 
 }
