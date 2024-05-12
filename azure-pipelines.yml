@@ -22,11 +22,11 @@ steps:
     mavenPomFile: 'pom.xml'
     goals: 'clean install'
     artifactoryResolverService: 'rt-server'
-    targetResolveReleaseRepo: 'slash-guide-maven-virtual'
-    targetResolveSnapshotRepo: 'slash-guide-maven-virtual'
+    targetResolveReleaseRepo: 'slash-maven-virtual'
+    targetResolveSnapshotRepo: 'slash-maven-virtual'
     artifactoryDeployService: 'rt-server'
-    targetDeployReleaseRepo: 'slash-guide-maven-virtual'
-    targetDeploySnapshotRepo: 'slash-guide-maven-virtual'
+    targetDeployReleaseRepo: 'slash-maven-virtual'
+    targetDeploySnapshotRepo: 'slash-maven-virtual'
     collectBuildInfo: true
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
@@ -36,4 +36,4 @@ steps:
     artifactoryService: 'rt-server'
     buildNumber: '$(Build.DefinitionName)'
     buildName: '$(Build.DefinitionName)'
-    
+
